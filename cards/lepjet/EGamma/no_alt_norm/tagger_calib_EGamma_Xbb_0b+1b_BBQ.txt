@@ -1,0 +1,47 @@
+Combination of zerob=/afs/cern.ch/work/c/csutanta/HTOAA_CMSSW/CMSSW_14_1_0_pre4/src/HiggsAnalysis/CombinedLimit/AK8TaggerCalib/cards/lepjet/EGamma/tagger_calib_card_Xbb_0b_BBQ.txt  oneb=/afs/cern.ch/work/c/csutanta/HTOAA_CMSSW/CMSSW_14_1_0_pre4/src/HiggsAnalysis/CombinedLimit/AK8TaggerCalib/cards/lepjet/EGamma/tagger_calib_card_Xbb_1b_BBQ.txt
+imax 5 number of bins
+jmax 2 number of processes minus 1
+kmax 23 number of nuisance parameters
+----------------------------------------------------------------------------------------------------------------------------------
+shapes *              oneb           data/lepjet/EGamma/AK8_tagger_calib_Xbb_1b_BBQ_2p0_slc7.root $PROCESS_oneb_BBQ_BBQQ_Xbb $PROCESS_oneb_BBQ_BBQQ_Xbb_$SYSTEMATIC
+shapes data_obs       oneb           data/lepjet/EGamma/AK8_tagger_calib_Xbb_1b_BBQ_2p0_slc7.root EGamma_2018_oneb_BBQ_BBQQ_Xbb
+shapes *              zerob_bdtHi    data/lepjet/EGamma/AK8_tagger_calib_Xbb_0b_BBQ_2p0_slc7.root $PROCESS_bdtHi_Xbb $PROCESS_bdtHi_Xbb_$SYSTEMATIC
+shapes data_obs       zerob_bdtHi    data/lepjet/EGamma/AK8_tagger_calib_Xbb_0b_BBQ_2p0_slc7.root EGamma_2018_bdtHi_Xbb
+shapes *              zerob_bdtLo    data/lepjet/EGamma/AK8_tagger_calib_Xbb_0b_BBQ_2p0_slc7.root $PROCESS_bdtLo_Xbb $PROCESS_bdtLo_Xbb_$SYSTEMATIC
+shapes data_obs       zerob_bdtLo    data/lepjet/EGamma/AK8_tagger_calib_Xbb_0b_BBQ_2p0_slc7.root EGamma_2018_bdtLo_Xbb
+shapes *              zerob_bdtMed   data/lepjet/EGamma/AK8_tagger_calib_Xbb_0b_BBQ_2p0_slc7.root $PROCESS_bdtMed_Xbb $PROCESS_bdtMed_Xbb_$SYSTEMATIC
+shapes data_obs       zerob_bdtMed   data/lepjet/EGamma/AK8_tagger_calib_Xbb_0b_BBQ_2p0_slc7.root EGamma_2018_bdtMed_Xbb
+shapes *              zerob_bdtVeto  data/lepjet/EGamma/AK8_tagger_calib_Xbb_0b_BBQ_2p0_slc7.root $PROCESS_bdtVeto_Xbb $PROCESS_bdtVeto_Xbb_$SYSTEMATIC
+shapes data_obs       zerob_bdtVeto  data/lepjet/EGamma/AK8_tagger_calib_Xbb_0b_BBQ_2p0_slc7.root EGamma_2018_bdtVeto_Xbb
+----------------------------------------------------------------------------------------------------------------------------------
+bin          zerob_bdtHi    zerob_bdtMed   zerob_bdtLo    zerob_bdtVeto  oneb
+observation  -1             -1             -1             -1             -1
+----------------------------------------------------------------------------------------------------------------------------------
+bin                                 zerob_bdtHi    zerob_bdtHi    zerob_bdtHi    zerob_bdtMed   zerob_bdtMed   zerob_bdtMed   zerob_bdtLo    zerob_bdtLo    zerob_bdtLo    zerob_bdtVeto  zerob_bdtVeto  zerob_bdtVeto  oneb           oneb           oneb
+process                             Sum2B          Sum1B          Sum0b          Sum2B          Sum1B          Sum0b          Sum2B          Sum1B          Sum0b          Sum2B          Sum1B          Sum0b          Sum2B          Sum1B          Sum0b
+process                             0              1              2              0              1              2              0              1              2              0              1              2              0              1              2
+rate                                -1             -1             -1             -1             -1             -1             -1             -1             -1             -1             -1             -1             -1             -1             -1
+----------------------------------------------------------------------------------------------------------------------------------
+r_1b_BBQ_BBQQ_0b        lnN         -              -              -              -              -              -              -              -              -              -              -              -              -              -              2.0
+r_1b_BBQ_BBQQ_1B        lnN         -              -              -              -              -              -              -              -              -              -              -              -              -              2.0            -
+r_1b_BBQ_BBQQ_2B        lnN         -              -              -              -              -              -              -              -              -              -              -              -              2.0            -              -
+r_bdtHi_0b              lnN         -              -              2.0            -              -              -              -              -              -              -              -              -              -              -              -
+r_bdtHi_1B              lnN         -              2.0            -              -              -              -              -              -              -              -              -              -              -              -              -
+r_bdtLo_0B              lnN         -              -              -              -              -              -              -              -              2.0            -              -              -              -              -              -
+r_bdtLo_1B              lnN         -              -              -              -              -              -              -              2.0            -              -              -              -              -              -              -
+r_bdtLo_2B              lnN         -              -              -              -              -              -              2.0            -              -              -              -              -              -              -              -
+r_bdtMed_0B             lnN         -              -              -              -              -              2.0            -              -              -              -              -              -              -              -              -
+r_bdtMed_1B             lnN         -              -              -              -              2.0            -              -              -              -              -              -              -              -              -              -
+r_bdtMed_2B             lnN         -              -              -              2.0            -              -              -              -              -              -              -              -              -              -              -
+r_bdtVeto_0B            lnN         -              -              -              -              -              -              -              -              -              -              -              2.0            -              -              -
+r_bdtVeto_1B            lnN         -              -              -              -              -              -              -              -              -              -              2.0            -              -              -              -
+r_bdtVeto_2B            lnN         -              -              -              -              -              -              -              -              -              2.0            -              -              -              -              -
+s0b_2bin                shape       -              -              1.0            -              -              1.0            -              -              1.0            -              -              1.0            -              -              1.0
+s0b_3bin                shape       -              -              1.0            -              -              1.0            -              -              1.0            -              -              1.0            -              -              1.0
+s0b_4bin                shape       -              -              1.0            -              -              1.0            -              -              1.0            -              -              1.0            -              -              1.0
+s1B_2bin                shape       -              1.0            -              -              1.0            -              -              1.0            -              -              1.0            -              -              1.0            -
+s1B_3bin                shape       -              1.0            -              -              1.0            -              -              1.0            -              -              1.0            -              -              1.0            -
+s1B_4bin                shape       -              1.0            -              -              1.0            -              -              1.0            -              -              1.0            -              -              1.0            -
+s2B_2bin                shape       1.0            -              -              1.0            -              -              1.0            -              -              1.0            -              -              1.0            -              -
+s2B_3bin                shape       1.0            -              -              1.0            -              -              1.0            -              -              1.0            -              -              1.0            -              -
+s2B_4bin                shape       1.0            -              -              1.0            -              -              1.0            -              -              1.0            -              -              1.0            -              -
