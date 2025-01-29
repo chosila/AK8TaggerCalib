@@ -23,6 +23,9 @@ s1B_4bin        shape   -             1.0           -
 s0b_2bin        shape   -             -             1.0
 s0b_3bin        shape   -             -             1.0
 s0b_4bin        shape   -             -             1.0
-r_sideband_2B   lnN   1.3           -             -
-r_sideband_1B   lnN   -             1.3           -
-r_sideband_0b   lnN   -             -             1.3
+r_sideband_2B   lnN     1.3           -             -
+r_sideband_1B   lnN     -             1.3           -
+r_sideband_0B   lnN     -             -             1.3
+r_2B            lnN     1.2           -             -
+r_1B            lnN     -             1.2           -
+r_0B            lnN     -             -             1.2
