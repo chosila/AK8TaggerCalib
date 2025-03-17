@@ -25,13 +25,13 @@ ax.plot(s2b, nll, '.')
 ax.set_xlabel('x2B_4bin')
 ax.set_ylabel('deltaNLL')
 #pltname = args.filename.split('/')[1].replace('.root','')
-pltname = args.filename.split('.')[0].removeprefix('output_root/higgsCombine')
+pltname = args.filename.split('.')[0].removeprefix('output_root/v2/higgsCombine')
 ax.set_title(f'{pltname} deltaNLL vs x2B_4bin')
 
-low05 = s2b[find_nearest(nll[s2b<0], 0.5)]
 minpoint = s2b[np.argmin(nll)]
+low05 = s2b[find_nearest(nll[s2b<minpoint], 0.5)]
 tmp = nll
-tmp[s2b < 0 ] = 10
+tmp[s2b < minpoint ] = 10
 high05 = s2b[find_nearest(tmp, 0.5)]
 
 print('low 05', low05)
@@ -50,4 +50,4 @@ ax.text(high05, 0.02, high05)
 ax.text(minpoint, 0.02, f'min={minpoint:.4f}')
 
 print(pltname)
-fig.savefig(f'plots/{pltname}.png', bbox_inches='tight')
+fig.savefig(f'plots/v2/{pltname}.png', bbox_inches='tight')
