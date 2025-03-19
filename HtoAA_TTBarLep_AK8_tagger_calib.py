@@ -15,9 +15,11 @@ from array import array
 import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument('--dataset')
+parser.add_argument('--outdir')
 
 args = parser.parse_args()
 dataset = args.dataset
+outdir = args.outdir.removesuffix('/')
 
 
 R.gROOT.SetBatch(True)  ## Don't display histograms or canvases when drawn
@@ -27,13 +29,15 @@ R.gStyle.SetOptStat(0)  ## Don't display stat boxes
 VERBOSE  = False
 if dataset == 'EGamma':
     IN_DIR   = '/afs/cern.ch/work/c/csutanta/public/unskimmed_histograms/v2/unskimmed_EGamma_'
-    OUT_DIR  = 'tmp/v2/combined_bkg/EGamma/'
+    OUT_DIR  = f'{outdir}/EGamma'
 elif dataset == 'SingleMuon':
     IN_DIR   = '/afs/cern.ch/work/c/csutanta/public/unskimmed_histograms/v2/unskimmed_SingleMuon_'
-    OUT_DIR  = 'tmp/v2/combined_bkg/SingleMuon/'
+    OUT_DIR  = f'{outdir}/SingleMuon/'
 else:
     print('need to provide dataset! exiting.')
     exit()
+
+
 CATS     = ['bdtVeto',
             'bdtLo',
             'bdtMed',
