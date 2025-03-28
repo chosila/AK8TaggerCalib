@@ -27,7 +27,7 @@ def make_plots(dc_sr):
     hep.cms.label(
         "Preliminary",
         data=True,
-        lumi=59.74,
+        lumi=59.83,
         loc=0,
         ax=ax,
     )
