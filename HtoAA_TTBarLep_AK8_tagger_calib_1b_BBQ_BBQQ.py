@@ -14,6 +14,7 @@ from array import array
 import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument('--dataset')
+parser.add_argument('--outdir')
 
 args = parser.parse_args()
 dataset = args.dataset
@@ -35,21 +36,16 @@ else:
     print('need to provide dataset! exiting.')
     exit()
 
-#IN_DIR   = '/afs/cern.ch/work/c/csutanta/public/rootfiles/lepjet/unskimmed_{}_'.format(lep)
-#OUT_DIR  = 'plots/HtoAA_TTBarLep_AK8_tagger_calib/lepjet/{}/'.format(lep) #EGamma/' #
-CATS     = ['1b_BBQ_BBQQ'] #['bdtHi', 'bdtMed', 'bedLo', 'bdtVeto']
-SELS     = ['1b_BBQQ']#, '1b_BBQ'] #['0b_BBQ']
-TAGGERS  = { # 'particleNetMD_XbbOverQCD':[0.1,0.5,0.75]
+CATS     = ['1b_BBQ_BBQQ']
+SELS     = ['1b_BBQQ']
+TAGGERS  = {
     'PNet_TT_bbqq_vs_01b'        : [0.2, 0.5, 0.8],
 }
-# TAGGERS  = {'FatJet_PNetMD_Hto4b_Htoaa34bOverQCD':[0.02,0.2,0.8]}
-TAGNM    = {'particleNetMD_XbbOverQCD':'Xbb',
-            'FatJet_PNetMD_Hto4b_Htoaa34bOverQCD':'Hto34b',
-            'PNet_TT_bbqq_vs_01b'        : 'TT_bbqq_vs_01b'}
+TAGNM    = {'PNet_TT_bbqq_vs_01b'        : 'TT_bbqq_vs_01b'}
 SVAR  = 2.0  ## Systematic factor of variation in tagging efficiency
 
 YEAR     = '2018'
-DATA     = dataset#lep #'SingleMuon'#'EGamma'#
+DATA     = dataset#lep
 ERAS     = ['Run'+YEAR+er for er in ['A','B','C','D']]
 
 MC_2bq   = ['TTToSemiLeptonic_powheg_bbqq',
@@ -63,8 +59,6 @@ MC_1b    = ['TTToSemiLeptonic_powheg_1b',
 MC_0b    = ['TTToSemiLeptonic_powheg_0b',
             'TTTo2L2Nu_powheg_0b',
             'WJetsToLNu_HT_LO',
-            #'DYJets_M-50_Incl_NLO',
-            #'DYJets_M-10to50_Incl_NLO'
            ]
 MCNM = {'TTToSemiLeptonic_powheg_bbqq':'TT1L_bbqq',
         'TTToSemiLeptonic_powheg_bbq' :'TT1L_bbq',
@@ -77,8 +71,6 @@ MCNM = {'TTToSemiLeptonic_powheg_bbqq':'TT1L_bbqq',
         'TTToSemiLeptonic_powheg_0b'  :'TT1L_0b',
         'TTTo2L2Nu_powheg_0b'         :'TT2L_0b',
         'WJetsToLNu_HT_LO'            :'WToLNu',
-        #'DYJets_M-50_Incl_NLO'        :'DY_M50',
-        #'DYJets_M-10to50_Incl_NLO'    :'DY_M10'
         }
 
 
@@ -234,14 +226,14 @@ def main():
                     fill_pass_fail(h_in, h_outs[sel][h_out_name], TAGGERS[tag])
 
                     if mc in MC_2bq: systs = ['2bq','2B2Q']
-                    if mc in MC_2b:  systs = ['2b', 'bkgB']#'2B']
-                    if mc in MC_bqq: systs = ['bqq','bkgB']#'01B']
-                    if mc in MC_1b:  systs = ['1b', 'bkgB']#'01B']
-                    if mc in MC_0b:  systs = ['0b', 'bkgB']#'01B']
+                    if mc in MC_2b:  systs = ['2b', 'BB', ]
+                    if mc in MC_bqq: systs = ['bqq','BQQ',]
+                    if mc in MC_1b:  systs = ['1b', '01B',]
+                    if mc in MC_0b:  systs = ['0b', '01B',]
                     for syst in systs:
                         ## Generate additional histograms with sum of MC
                         h_MC_name = 'Sum'+syst+'_'+mod_cat+'_'+TAGNM[tag]
-                        print('h mc name: ', h_MC_name)
+
                         if not h_MC_name in h_outs[sel].keys():
                             h_outs[sel][h_MC_name] = R.TH1D(h_MC_name, h_MC_name, nCuts+1, 0, nCuts+1)
                             h_outs[sel][h_MC_name].SetDirectory(0) ## Save locally
@@ -251,19 +243,27 @@ def main():
                         for h_syst in make_syst_hists(h_outs[sel][h_out_name], syst):
                             h_outs[sel][h_syst.GetName()] = h_syst
                             h_outs[sel][h_syst.GetName()].SetDirectory(0) ## Save locally
+
                             ## Generate additional systematic histograms with sum of MC
                             h_MC_name_syst = h_MC_name+(h_syst.GetName().replace(h_out_name,''))
                             if not h_MC_name_syst in h_outs[sel].keys():
                                 h_outs[sel][h_MC_name_syst] = R.TH1D(h_MC_name_syst, h_MC_name_syst, nCuts+1, 0, nCuts+1)
                                 h_outs[sel][h_MC_name_syst].SetDirectory(0) ## Save locally
                             h_outs[sel][h_MC_name_syst].Add(h_syst)
+
+                            ## clone the bin up and bin down and have _bkg instead of s{syst} in the name
+                            ## need for version of card that has
+                            h_sum_bkg_name = h_MC_name_syst.replace('_s'+syst, '_sbkg')
+                            h_sum_bkg = h_outs[sel][h_MC_name_syst].Clone(h_sum_bkg_name)
+                            h_outs[sel][h_sum_bkg_name] = h_sum_bkg
+
                         ## End loop: for h_syst in make_syst_hists(h_outs[sel][h_out_name], syst)
                     ## End loop: for syst in systs
                 ## End loop: for mc in MC_2bq+MC_2b+MC_bqq+MC_1b+MC_0b
 
             ## End loop: for tag in TAGGERS.keys()
         ## End loop: for sel in SELS
-        in_file.Close()
+        #in_file.Close()
     ## End loop: for cat in CATS
 
 

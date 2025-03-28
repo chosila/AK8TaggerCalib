@@ -29,7 +29,7 @@ R.gStyle.SetOptStat(0)  ## Don't display stat boxes
 VERBOSE  = False
 if dataset == 'EGamma':
     IN_DIR   = '/afs/cern.ch/work/c/csutanta/public/unskimmed_histograms/v2/unskimmed_EGamma_'
-    OUT_DIR  = f'{outdir}/EGamma'
+    OUT_DIR  = f'{outdir}/EGamma/'
 elif dataset == 'SingleMuon':
     IN_DIR   = '/afs/cern.ch/work/c/csutanta/public/unskimmed_histograms/v2/unskimmed_SingleMuon_'
     OUT_DIR  = f'{outdir}/SingleMuon/'
@@ -42,39 +42,17 @@ CATS     = ['bdtVeto',
             'bdtLo',
             'bdtMed',
             'bdtHi']
-SELS     = ['0b_BBQQ'] # '0b_BBQ'] # we shouldn't need BBQ anymore since we cut since mass is a much lower complex cut which will not tell us anything
-#TAGGERS  = {'particleNetMD_XbbOverQCD':[0.1,0.5,0.75]}
-#TAGGERS  = {'FatJet_PNetMD_Hto4b_Htoaa34bOverQCD':[0.02,0.2,0.8]}
-#TAGNM    = {'particleNetMD_XbbOverQCD':'Xbb',
-#            'FatJet_PNetMD_Hto4b_Htoaa34bOverQCD':'Hto34b'}
+SELS     = ['0b_BBQQ']
 TAGGERS   = {
-#    'PNet_X4b_v1_Haa34b_score'  : [0.02, 0.2, 0.8],
-#    'PNet_X4b_v1_Haa4b_score'   : [0.02, 0.2, 0.8],
-#    'PNet_X4b_v2a_Haa34b_score' : [0.02, 0.2, 0.8],
-#    'PNet_X4b_v2a_Haa4b_score'  : [0.02, 0.2, 0.8],
-#    'PNet_X4b_v2b_Haa34b_score' : [0.02, 0.2, 0.8],
-#    'PNet_X4b_v2b_Haa4b_score'  : [0.02, 0.2, 0.8],
-#    'PNet_X4b_v2_Haa34b_score'  : [0.02, 0.2, 0.8],
-#    'PNet_X4b_v2_Haa4b_score'   : [0.02, 0.2, 0.8],
     'PNet_TT_bbqq_vs_01b'        : [0.2, 0.5, 0.8],
 }
 TAGNM     = {
-#    'PNet_X4b_v1_Haa34b_score'  : 'v1_Haa34b',
-#    'PNet_X4b_v1_Haa4b_score'   : 'v1_Haa4b',
-#    'PNet_X4b_v2a_Haa34b_score' : 'v2a_Haa34b',
-#    'PNet_X4b_v2a_Haa4b_score'  : 'v2a_Haa4b',
-#    'PNet_X4b_v2b_Haa34b_score' : 'v2b_Haa34b',
-#    'PNet_X4b_v2b_Haa4b_score'  : 'v2b_Haa4b',
-#    'PNet_X4b_v2_Haa34b_score'  : 'v2_Haa34b',
-#    'PNet_X4b_v2_Haa4b_score'   : 'v2_Haa4b',
     'PNet_TT_bbqq_vs_01b'        : 'TT_bbqq_vs_01b'
 }
 SVAR  = 2.0  ## Systematic factor of variation in tagging efficiency
 
 YEAR     = '2018'
 DATA     = dataset
-#DATA     = 'EGamma'
-#DATA     = 'SingleMuon'
 
 ERAS     = ['Run'+YEAR+er for er in ['A','B','C','D']]
 
@@ -89,10 +67,6 @@ MC_1b    = ['TTToSemiLeptonic_powheg_1b',
 MC_0b    = ['TTToSemiLeptonic_powheg_0b',
             'TTTo2L2Nu_powheg_0b',
             'WJetsToLNu_HT_LO',]
-            #'DYJets_M-50_Incl_LO',
-            #'DYJets_M-10to50_Incl_LO']
-            # 'DYJets_M-50_Incl_NLO',
-            # 'DYJets_M-10to50_Incl_NLO']
 MCNM = {'TTToSemiLeptonic_powheg_bbqq':'TT1L_bbqq',
         'TTToSemiLeptonic_powheg_bbq' :'TT1L_bbq',
         'TTToSemiLeptonic_powheg_bb'  :'TT1L_bb',
@@ -104,10 +78,6 @@ MCNM = {'TTToSemiLeptonic_powheg_bbqq':'TT1L_bbqq',
         'TTToSemiLeptonic_powheg_0b'  :'TT1L_0b',
         'TTTo2L2Nu_powheg_0b'         :'TT2L_0b',
         'WJetsToLNu_HT_LO'            :'WToLNu',}
-        #'DYJets_M-50_Incl_LO'        :'DY_M50',
-        #'DYJets_M-10to50_Incl_LO'    :'DY_M10'}
-        # 'DYJets_M-50_Incl_NLO'        :'DY_M50',
-        # 'DYJets_M-10to50_Incl_NLO'    :'DY_M10'}
 
 
 
@@ -262,10 +232,10 @@ def main():
                     fill_pass_fail(h_in, h_outs[sel][h_out_name], TAGGERS[tag])
 
                     if mc in MC_2bq: systs = ['2bq','2B2Q']
-                    if mc in MC_2b:  systs = ['2b', 'bkgB']#'2B']
-                    if mc in MC_bqq: systs = ['bqq','bkgB']#'01B']
-                    if mc in MC_1b:  systs = ['1b', 'bkgB']#'01B']
-                    if mc in MC_0b:  systs = ['01b', 'bkgB']#'01B']
+                    if mc in MC_2b:  systs = ['2b', 'BB']
+                    if mc in MC_bqq: systs = ['bqq','BQQ']
+                    if mc in MC_1b:  systs = ['1b', '01B']
+                    if mc in MC_0b:  systs = ['01b', '01B']
                     for syst in systs:
                         ## Generate additional histograms with sum of MC
                         h_MC_name = 'Sum'+syst+'_'+cat+'_'+TAGNM[tag]
@@ -284,6 +254,14 @@ def main():
                                 h_outs[sel][h_MC_name_syst] = R.TH1D(h_MC_name_syst, h_MC_name_syst, nCuts+1, 0, nCuts+1)
                                 h_outs[sel][h_MC_name_syst].SetDirectory(0) ## Save locally
                             h_outs[sel][h_MC_name_syst].Add(h_syst)
+
+                            ## clone the bin up and bin down and have _bkg instead of s{syst} in the name
+                            ## need for version of card that has different r_nuisance but same s_nuisance
+                            h_sum_bkg_name = h_MC_name_syst.replace('_s'+syst, '_sbkg')
+                            h_sum_bkg = h_outs[sel][h_MC_name_syst].Clone(h_sum_bkg_name)
+                            h_outs[sel][h_sum_bkg_name] = h_sum_bkg
+                            h_outs[sel][h_sum_bkg_name].SetDirectory(0) ## Save locally. If don't do this, histogram will be None after open new file or close current file
+
                         ## End loop: for h_syst in make_syst_hists(h_outs[sel][h_out_name], syst)
                     ## End loop: for syst in systs
                 ## End loop: for mc in MC_2bq+MC_2b+MC_bqq+MC_1b+MC_0b
