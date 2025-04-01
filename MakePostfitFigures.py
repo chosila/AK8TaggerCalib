@@ -22,7 +22,8 @@ def add_uncertainty(hist, ax, ratio=False):
 
 def make_plots(dc_sr):
     h = dc_sr['data']
-    processes = ['Sum01B', 'SumBB', 'SumBQQ', 'Sum2B2Q']
+    # processes = ['Sum01B', 'SumBB', 'SumBQQ', 'Sum2B2Q']
+    processes = ['Sum4B', 'Sum3B', 'Sum012B', 'SumTWZ']
     fig, ax = plt.subplots(figsize=(9,6))
     hep.cms.label(
         "Preliminary",
@@ -42,7 +43,7 @@ def make_plots(dc_sr):
     hep.histplot(
         dc_sr['data'].values()[1],
         dc_sr['total'].axes[0].edges(),
-        w2=dc_sr['data'].values()[1],
+        #w2=dc_sr['data'].values()[1],
         histtype="errorbar",
         stack=False,
         label='Observation',
@@ -50,14 +51,18 @@ def make_plots(dc_sr):
         ax=ax
     )
 
+
+
     ax.set_ylabel(r'Events')
     add_uncertainty(dc_sr['total'],  ax)
     ax.legend()
     labels = [item.get_text() for item in ax.get_xticklabels()]
 
     ax.set_xticks(range(0,5)) # to avoid this error: UserWarning: FixedFormatter should only be used together with FixedLocator
-    ax.set_xticklabels([0, 0.2, 0.5, 0.8, 1])
-    ax.set_xlabel('TT_bbqq_vs_01b split 01B/BB/BQQ', loc='right')
+
+    ax.set_xticklabels([0.0, 0.40, 0.66, 0.93, 1.0]) # for 60
+    #ax.set_xticklabels([0.0, 0.40, 0.84, 0.96, 1.0]) # for 40
+    ax.set_xlabel('X4b WP60', loc='right')
     return fig,ax
 
 #fitDiagnostics = uproot.open('fitDiagnosticsSM+EG_Xbb_0b+1b_BBQQ.root')
@@ -69,7 +74,8 @@ def make_plots(dc_sr):
 
 
 fns = {
-    'fitDiagnosticssBQQ_sBB_1p00.root' : ['mu_zerob_bdtHi', 'mu_zerob_bdtMed', 'mu_zerob_bdtLo', 'mu_zerob_bdtVeto', 'mu_oneb','eg_zerob_bdtHi', 'eg_zerob_bdtMed', 'eg_zerob_bdtLo', 'eg_zerob_bdtVeto', 'eg_oneb'],
+    #'fitDiagnosticssBQQ_sBB_1p00.root' : ['mu_zerob_bdtHi', 'mu_zerob_bdtMed', 'mu_zerob_bdtLo', 'mu_zerob_bdtVeto', 'mu_oneb','eg_zerob_bdtHi', 'eg_zerob_bdtMed', 'eg_zerob_bdtLo', 'eg_zerob_bdtVeto', 'eg_oneb'],
+    'fitDiagnosticsX4b_WP60.root' : [ 'c3M2T', 'c3M3T', 'c4M3T', 'c4M4T']
     #'fitDiagnosticsmu_0b+1b_TT_bbqq_vs_01b.root' : ['zerob_bdtHi', 'zerob_bdtMed', 'zerob_bdtLo', 'zerob_bdtVeto', 'oneb'],
     #'fitDiagnosticseg_0b+1b_TT_bbqq_vs_01b.root' : ['zerob_bdtHi', 'zerob_bdtMed', 'zerob_bdtLo', 'zerob_bdtVeto', 'oneb']
 }
@@ -83,16 +89,23 @@ for fn in fns:
         ax.set_title(pltname, y=1.1)
         # fig.savefig(f'plots/v2/pre_post_Fits/postfit_{pltname}.png', bbox_inches='tight')
         # fig.savefig(f'plots/v2/combinedbkg_test/postfit_{pltname}.png', bbox_inches='tight')
-        fig.savefig(f'tmp/postfit_{pltname}.png', bbox_inches='tight')
+        fig.savefig(f'tmp/postfit_{pltname}_WP60.png', bbox_inches='tight')
 
         dc_sr = fitDiagnostics[f'shapes_prefit/{branch}']
+
+        print(branch)
+        processes = ['Sum4B']#['Sum4B', 'Sum3B', 'Sum012B', 'SumTWZ']
+        print('counts: ', [ dc_sr[x].counts() for x in processes ])
+        print('values: ', [ dc_sr[x].counts() for x in processes ])
+        print('----------------------------------')
+
         fig, ax = make_plots(dc_sr)
         pltname = f"{fn.removesuffix('.root').removeprefix('fitDiagnostics')}_{branch}"
         ax.set_title(pltname, y=1.1)
         # fig.savefig(f'plots/v2/pre_post_Fits/prefit_{pltname}.png', bbox_inches='tight')
 
         #fig.savefig(f'plots/v2/combinedbkg_test/prefit_{pltname}.png', bbox_inches='tight')
-        fig.savefig(f'tmp/prefit_{pltname}.png', bbox_inches='tight')
+        fig.savefig(f'tmp/prefit_{pltname}_WP60.png', bbox_inches='tight')
 
         plt.close('all')
 import sys

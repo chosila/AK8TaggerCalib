@@ -236,7 +236,7 @@ def main():
     for tag in TAGGERS.keys():
         ## Loop over summed MC samples
         for mcSum in MC_SUMS:
-            base = 'Sum'+mcSum+'_3M3T_'+TAGNM[tag]
+            base = 'Sum'+mcSum+'_c3M3T_'+TAGNM[tag]
             ## Loop over histograms
             for h_out_name in h_outs.keys():
                 if not h_out_name.startswith(base): continue
