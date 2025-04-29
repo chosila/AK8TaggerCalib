@@ -1,0 +1,27 @@
+imax    3 number of bins
+jmax    2 number of processes minus 1
+kmax    * number of nuisance parameters
+----------------------------------------------------------------------------------------
+shapes * * AK8_tagger_calib_sel_Mass140_dR_2p75_0p5_slc7.root $PROCESS_$CHANNEL $PROCESS_$CHANNEL_$SYSTEMATIC
+shapes data_obs *  AK8_tagger_calib_sel_Mass140_dR_2p75_0p5_slc7.root SingleMuon_2018_$CHANNEL
+
+----------------------------------------------------------------------------------------
+bin              bdtHi_0p8   bdtLo_0p8   ext_0p8
+observation     -1           -1          -1     
+----------------------------------------------------------------------------------------
+bin                     bdtHi_0p8  bdtHi_0p8  bdtHi_0p8  bdtLo_0p8  bdtLo_0p8  bdtLo_0p8  ext_0p8  ext_0p8  ext_0p8
+process                 Sum2b      Sum1b      Sum0b      Sum2b      Sum1b      Sum0b	  Sum2b    Sum1b     Sum0b 
+process                 0          1          2          -1         3          4	  -2       5         6     
+rate                    -1         -1         -1         -1         -1         -1	  -1       -1        -1    
+----------------------------------------------------------------------------------------           	    		    	         	      
+Eff2b           shape   1          -          -          1          -          -	  1        -         -     
+Fake1b          shape   -          1          -          -          1          -	  -        1         -     
+Fake0b          shape   -          -          1          -          -          1	  -        -         1     
+r_bdtHi_1b      lnN     -          2.0        -          -          -          -	  -        -         -     
+r_bdtHi_0b      lnN     -          -          2.0        -          -          -  	  -        -         -     
+r_bdtLo_2b      lnN     -          -          -          2.0        -          -	  -        -         -     
+r_bdtLo_1b      lnN     -          -          -          -          2.0        -	  -        -         -     
+r_bdtLo_0b      lnN     -          -          -          -          -          2.0        -        -         -     
+r_ext_2b        lnN     -          -          -          -          -          -	  2.0      -         -     
+r_ext_1b        lnN     -          -          -          -          -          -	  -        2.0       -     
+r_ext_0b        lnN     -          -          -          -          -          -  	  -        -         2.0   

@@ -13,6 +13,13 @@ import ROOT as R
 import ctypes
 from array import array
 
+import argparse
+parser = argparse.ArgumentParser()
+parser.add_argument('wp', help='40 or 60')
+args = parser.parse_args()
+
+
+
 R.gROOT.SetBatch(True)  ## Don't display histograms or canvases when drawn
 R.gStyle.SetOptStat(0)  ## Don't display stat boxes
 
@@ -20,8 +27,14 @@ R.gStyle.SetOptStat(0)  ## Don't display stat boxes
 VERBOSE  = False
 IN_DIR   = '/eos/cms/store/user/ssawant/htoaa/analysis/20250317_CR_QCD4b_FullSyst/2018/CombineFit_inputFiles/'
 CATS     = ['3M2T','3M3T','4M3T','4M4T']
-TAGGERS  = {'X4b_v2ab_Haa4b_score':[0.40,0.66,0.93]}  ## For WP60
-#TAGGERS  = {'X4b_v2ab_Haa4b_score':[0.40,0.84,0.96]}  ## For WP40
+if args.wp == 60:
+    TAGGERS  = {'X4b_v2ab_Haa4b_score':[0.40,0.66,0.93]}  ## For WP60
+elif args.wp == 40:
+    TAGGERS  = {'X4b_v2ab_Haa4b_score':[0.40,0.84,0.96]}  ## For WP40
+else :
+    print('wrong working point given. exiting')
+    exit()
+
 TAGNM    = {'X4b_v2ab_Haa4b_score':'X4b_v2'}
 WP = 'WPX'
 if TAGGERS['X4b_v2ab_Haa4b_score'][2] == 0.96: WP = 'WP40'

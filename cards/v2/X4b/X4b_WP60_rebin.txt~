@@ -1,0 +1,60 @@
+imax    4 number of bins
+jmax    3 number of processes minus 1
+kmax    * number of nuisance parameters
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+shapes        * *  /afs/cern.ch/work/a/abrinke1/public/HiggsToAA/coffea/eventloop/plots/HtoAA_QCD_AK8_tagger_calib/AK8_tagger_calib_X4b_v2_WP60_2p0_slc7.root $PROCESS_$CHANNEL_X4b_v2 $PROCESS_$CHANNEL_X4b_v2_$SYSTEMATIC
+shapes data_obs *  /afs/cern.ch/work/a/abrinke1/public/HiggsToAA/coffea/eventloop/plots/HtoAA_QCD_AK8_tagger_calib/AK8_tagger_calib_X4b_v2_WP60_2p0_slc7.root Data_2018_$CHANNEL_X4b_v2
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+bin              c3M2T   c3M3T    c4M3T   c4M4T
+observation      -1      -1       -1      -1
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+bin                         c3M2T     c3M2T     c3M2T     c3M2T     c3M3T     c3M3T     c3M3T     c3M3T     c4M3T     c4M3T     c4M3T     c4M3T     c4M4T     c4M4T     c4M4T     c4M4T
+process                     Sum4B     Sum3B     Sum012B   SumTWZ    Sum4B     Sum3B     Sum012B   SumTWZ    Sum4B     Sum3B     Sum012B   SumTWZ    Sum4B     Sum3B     Sum012B   SumTWZ
+process                     0         1         2         3         0         1         2         3         0         1         2         3         0         1         2         3
+rate                        -1        -1        -1        -1        -1        -1        -1        -1        -1        -1        -1        -1        -1        -1        -1        -1
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# Each sample should have 100% rate uncertainty (lnN = 2.0)
+
+r_3M2T_4B        lnN        2.0      -          -         -         -         -         -         -         -         -         -         -         -         -         -         -
+r_c3M2T_3B       lnN        -        2.0        -         -         -         -         -         -         -         -         -         -         -         -         -         -
+r_c3M2T_012B     lnN        -        -          2.0       -         -         -         -         -         -         -         -         -         -         -         -         -
+r_c3M2T_TWZ      lnN        -        -          -         2.0       -         -         -         -         -         -         -         -         -         -         -         -
+r_c3M3T_4B       lnN        -        -          -         -         2.0       -         -         -         -         -         -         -         -         -         -         -
+r_c3M3T_3B       lnN        -        -          -         -         -         2.0       -         -         -         -         -         -         -         -         -         -
+r_c3M3T_012B     lnN        -        -          -         -         -         -         2.0       -         -         -         -         -         -         -         -         -
+r_c3M3T_TWZ      lnN        -        -          -         -         -         -         -         2.0       -         -         -         -         -         -         -         -
+r_c4M3T_4B       lnN        -        -          -         -         -         -         -         -         2.0       -         -         -         -         -         -         -
+r_c4M3T_3B       lnN        -        -          -         -         -         -         -         -         -         2.0       -         -         -         -         -         -
+r_c4M3T_012B     lnN        -        -          -         -         -         -         -         -         -         -         2.0       -         -         -         -         -
+r_c4M3T_TWZ      lnN        -        -          -         -         -         -         -         -         -         -         -         2.0       -         -         -         -
+# r_c4M4T_4B       lnN        -        -          -         -         -         -         -         -         -         -         -         -         2.0       -         -         -
+# r_c4M4T_4B is r we are caluclating. Don't include
+r_c4M4T_3B       lnN        -        -          -         -         -         -         -         -         -         -         -         -         -         2.0       -         -
+r_c4M4T_012B     lnN        -        -          -         -         -         -         -         -         -         -         -         -         -         -         2.0       -
+r_c4M4T_TWZ      lnN        -        -          -         -         -         -         -         -         -         -         -         -         -         -         -         2.0
+
+# Also add 50% rate uncertainties (lnN = 1.5) for each sample separately for each of the the 3M2T and 3M3T categories
+r_c3M2T          lnN        1.5      1.5        1.5       1.5       -         -         -         -         -         -         -         -         -         -         -         -
+r_c3M3T          lnN        -        -          -         -         1.5       1.5       1.5       1.5       -         -         -         -         -         -         -         -
+
+# Also add 100% rate uncertainties for each sample separately for each of the 4M3T and 4M4T categories
+r_c4M3T          lnN        -        -          -         -         -         -         -         -         2.0       2.0       2.0       2.0       -         -         -         -
+r_c4M4T          lnN        -        -          -         -         -         -         -         -         -         -         -         -         2.0       2.0       2.0       2.0
+
+# shape uncertainty scales should all be set to 1.0 s4B_xbin
+s4B_4bin         shape      1.0       -          -         -        1.0       -         -         -         1.0       -         -         -         1.0       -         -         -
+s4B_3bin         shape      1.0       -          -         -        1.0       -         -         -         1.0       -         -         -         1.0       -         -         -
+s4B_2bin         shape      1.0       -          -         -        1.0       -         -         -         1.0       -         -         -         1.0       -         -         -
+s3B_4bin         shape      -         1.0        -         -        -         1.0       -         -         -         1.0       -         -         -         1.0       -         -
+s3B_3bin         shape      -         1.0        -         -        -         1.0       -         -         -         1.0       -         -         -         1.0       -         -
+s3B_2bin         shape      -         1.0        -         -        -         1.0       -         -         -         1.0       -         -         -         1.0       -         -
+s012B_4bin       shape      -         -          1.0       -        -         -         1.0       -         -         -         1.0       -         -         -         1.0       -
+s012B_3bin       shape      -         -          1.0       -        -         -         1.0       -         -         -         1.0       -         -         -         1.0       -
+s012B_2bin       shape      -         -          1.0       -        -         -         1.0       -         -         -         1.0       -         -         -         1.0       -
+sTWZ_4bin        shape      -         -          -         1.0      -         -         -         1.0       -         -         -         1.0       -         -         -         1.0
+sTWZ_3bin        shape      -         -          -         1.0      -         -         -         1.0       -         -         -         1.0       -         -         -         1.0
+sTWZ_2bin        shape      -         -          -         1.0      -         -         -         1.0       -         -         -         1.0       -         -         -         1.0
+
+# autoMCstats
+* autoMCStats 500 1
