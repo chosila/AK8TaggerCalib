@@ -1,0 +1,25 @@
+imax    1 number of bins
+jmax    1 number of processes minus 1
+kmax    * number of nuisance parameters
+----------------------------------------------------------------------------------------
+shapes        * *  data/v2/combinedbkg/SingleMuon/AK8_tagger_calib_TT_bbqq_vs_01b_1b_BBQQ_2p0_slc7.root $PROCESS_$CHANNEL_TT_bbqq_vs_01b $PROCESS_$CHANNEL_TT_bbqq_vs_01b_$SYSTEMATIC
+shapes data_obs *  data/v2/combinedbkg/SingleMuon/AK8_tagger_calib_TT_bbqq_vs_01b_1b_BBQQ_2p0_slc7.root SingleMuon_2018_$CHANNEL_TT_bbqq_vs_01b
+
+----------------------------------------------------------------------------------------
+bin             sideband
+observation     -1
+----------------------------------------------------------------------------------------
+bin                         sideband      sideband
+process                     Sum2B2Q       SumbkgB
+process                     0             1
+rate                        -1            -1
+---------------------------------------------------------------------------------------------
+s2B2Q_2bin        shape     1.0           -
+s2B2Q_3bin        shape     1.0           -
+s2B2Q_4bin        shape     1.0           -
+sbkgB_2bin        shape     -             1.0
+sbkgB_3bin        shape     -             1.0
+sbkgB_4bin        shape     -             1.0
+r_sideband_2B2Q   lnN       1.3           -
+r_sideband_bkgB   lnN       -             1.3
+r_bkgB            lnN       -             1.2

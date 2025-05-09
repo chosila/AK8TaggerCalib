@@ -53,3 +53,6 @@ s012B_2bin       shape      -         -          1.0       -        -         - 
 sTWZ_4bin        shape      -         -          -         1.0      -         -         -         1.0       -         -         -         1.0       -         -         -         1.0
 sTWZ_3bin        shape      -         -          -         1.0      -         -         -         1.0       -         -         -         1.0       -         -         -         1.0
 sTWZ_2bin        shape      -         -          -         1.0      -         -         -         1.0       -         -         -         1.0       -         -         -         1.0
+
+#automcstat
+* autoMCStats 500 1

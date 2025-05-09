@@ -1,0 +1,39 @@
+imax    4 number of bins
+jmax    2 number of processes minus 1
+kmax    * number of nuisance parameters
+----------------------------------------------------------------------------------------
+shapes        * *  data/v2/EGamma/AK8_tagger_calib_TT_bbqq_vs_01b_0b_BBQQ_2p0_slc7.root $PROCESS_$CHANNEL_TT_bbqq_vs_01b $PROCESS_$CHANNEL_TT_bbqq_vs_01b_$SYSTEMATIC
+shapes data_obs *  data/v2/EGamma/AK8_tagger_calib_TT_bbqq_vs_01b_0b_BBQQ_2p0_slc7.root EGamma_2018_$CHANNEL_TT_bbqq_vs_01b
+
+----------------------------------------------------------------------------------------
+bin              bdtHi   bdtMed   bdtLo   bdtVeto
+observation      -1      -1       -1      -1
+----------------------------------------------------------------------------------------
+bin                         bdtHi     bdtHi   bdtHi    bdtMed     bdtMed   bdtMed      bdtLo     bdtLo   bdtLo    bdtVeto     bdtVeto   bdtVeto
+process                     Sum2B2Q   Sum2B   Sum01B   Sum2B2Q    Sum2B    Sum01B	   Sum2B2Q   Sum2B   Sum01B   Sum2B2Q     Sum2B     Sum01B
+process                     0         1       2        0          1        2           0         1       2        0           1         2
+rate                        -1        -1      -1       -1         -1       -1	       -1        -1      -1       -1          -1        -1
+----------------------------------------------------------------------------------------
+s2B2Q_2bin        shape     1.0       -       -        1.0        -        -           1.0       -       -        1.0         -         -
+s2B2Q_3bin        shape     1.0       -       -        1.0        -        -           1.0       -       -        1.0         -         -
+s2B2Q_4bin        shape     1.0       -       -        1.0        -        -           1.0       -       -        1.0         -         -
+s2B_2bin          shape     -         1.0     -        -          1.0      -           -         1.0     -        -           1.0       -
+s2B_3bin          shape     -         1.0     -        -          1.0      -           -         1.0     -        -           1.0       -
+s2B_4bin          shape     -         1.0     -        -          1.0      -           -         1.0     -        -           1.0       -
+s01B_2bin         shape     -         -       1.0      -          -        1.0         -         -       1.0      -           -         1
+s01B_3bin         shape     -         -       1.0      -          -        1.0         -         -       1.0      -           -         1
+s01B_4bin         shape     -         -       1.0      -          -        1.0         -         -       1.0      -           -         1
+r_bdtHi_2B2Q      lnN       1.3       -       -        -          -	       -           -         -       -        -           -         -
+r_bdtHi_2B        lnN       -         1.3     -        -          -	       -           -         -       -        -           -         -
+r_bdtHi_01B       lnN       -         -       1.3      -          -	       -           -         -       -        -           -         -
+r_bdtMed_2B2Q     lnN       -         -       -        1.3        -	       -           -         -       -        -           -         -
+r_bdtMed_2B       lnN       -         -       -        -          1.3      -           -         -	     -        -           -         -
+r_bdtMed_01B      lnN       -         -       -        -          -        1.3         -         -	     -        -           -         -
+r_bdtLo_2B2Q      lnN       -         -       -        -          -        -           1.3       -	     -        -           -         -
+r_bdtLo_2B        lnN       -         -       -        -          -        -           -         1.3     -        -           -	        -
+r_bdtLo_01B       lnN       -         -       -        -          -        -           -         -       1.3      -           -	        -
+r_bdtVeto_2B2Q    lnN       -         -       -        -          -        -           -         -       -        1.3         -	        -
+r_bdtVeto_2B      lnN       -         -       -        -          -        -           -         -       -        -           1.3       -
+r_bdtVeto_01B     lnN       -         -       -        -          -        -           -         -       -        -           -         1.3
+r_2B              lnN       -         2.0     -        -          2.0      -           -         2.0     -        -           2.0       -
+r_01B             lnN       -         -       2.0      -          -        2.0         -         -       2.0      -           -         2.0

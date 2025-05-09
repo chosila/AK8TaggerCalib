@@ -2,8 +2,8 @@ imax    4 number of bins
 jmax    3 number of processes minus 1
 kmax    * number of nuisance parameters
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-shapes        * *  data/v2/X4b/AK8_tagger_calib_X4b_v2_WP60_2p0_slc7.root $PROCESS_$CHANNEL_X4b_v2 $PROCESS_$CHANNEL_X4b_v2_$SYSTEMATIC
-shapes data_obs *  data/v2/X4b/AK8_tagger_calib_X4b_v2_WP60_2p0_slc7.root Data_2018_$CHANNEL_X4b_v2
+shapes        * *  /afs/cern.ch/work/a/abrinke1/public/HiggsToAA/coffea/eventloop/plots/HtoAA_QCD_AK8_tagger_calib_alt/AK8_tagger_calib_X4b_v2_WP60_2p0_slc7.root $PROCESS_$CHANNEL_X4b_v2 $PROCESS_$CHANNEL_X4b_v2_$SYSTEMATIC
+shapes data_obs *  /afs/cern.ch/work/a/abrinke1/public/HiggsToAA/coffea/eventloop/plots/HtoAA_QCD_AK8_tagger_calib_alt/AK8_tagger_calib_X4b_v2_WP60_2p0_slc7.root Data_2018_$CHANNEL_X4b_v2
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 bin              c3M2T   c3M3T    c4M3T   c4M4T

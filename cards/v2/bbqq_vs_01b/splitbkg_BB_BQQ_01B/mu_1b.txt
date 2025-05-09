@@ -2,8 +2,9 @@ imax    1 number of bins
 jmax    3 number of processes minus 1
 kmax    * number of nuisance parameters
 ----------------------------------------------------------------------------------------
-shapes        * *  data/v2/splitbkg_BB_BQQ_01B/EGamma/AK8_tagger_calib_TT_bbqq_vs_01b_1b_BBQQ_2p0_slc7.root $PROCESS_$CHANNEL_TT_bbqq_vs_01b $PROCESS_$CHANNEL_TT_bbqq_vs_01b_$SYSTEMATIC
-shapes data_obs *  data/v2/splitbkg_BB_BQQ_01B/EGamma/AK8_tagger_calib_TT_bbqq_vs_01b_1b_BBQQ_2p0_slc7.root EGamma_2018_$CHANNEL_TT_bbqq_vs_01b
+shapes        * *  data/v2/splitbkg_BB_BQQ_01B/SingleMuon/AK8_tagger_calib_TT_bbqq_vs_01b_1b_BBQQ_2p0_slc7.root $PROCESS_$CHANNEL_TT_bbqq_vs_01b $PROCESS_$CHANNEL_TT_bbqq_vs_01b_$SYSTEMATIC
+shapes data_obs *  data/v2/splitbkg_BB_BQQ_01B/SingleMuon/AK8_tagger_calib_TT_bbqq_vs_01b_1b_BBQQ_2p0_slc7.root SingleMuon_2018_$CHANNEL_TT_bbqq_vs_01b
+
 ----------------------------------------------------------------------------------------
 bin             sideband
 observation     -1
@@ -16,10 +17,20 @@ rate                        -1            -1           -1             -1
 s2B2Q_2bin        shape     1.0           -            -              -
 s2B2Q_3bin        shape     1.0           -            -              -
 s2B2Q_4bin        shape     1.0           -            -              -
-## we need to generate duplicates of the SumBB(et al) and name them SumBB_Sbkg_2bin or something like that in the root file
-bkg_2bin         shape     -             1.0          1.0            1.0
-bkg_3bin         shape     -             1.0          1.0            1.0
-bkg_4bin         shape     -             1.0          1.0            1.0
+
+sbkg_2bin         shape     -             1.0          1.0            1.0
+sbkg_3bin         shape     -             1.0          1.0            1.0
+sbkg_4bin         shape     -             1.0          1.0            1.0
+
+sBB_2bin          shape     -             .25          -              -
+sBB_3bin          shape     -             .25          -              -
+sBB_4bin          shape     -             .25          -              -
+sBQQ_2bin         shape     -             -            .25            -
+sBQQ_3bin         shape     -             -            .25            -
+sBQQ_4bin         shape     -             -            .25            -
+s01B_2bin         shape     -             -            -              .25
+s01B_3bin         shape     -             -            -              .25
+s01B_4bin         shape     -             -            -              .25
 
 r_sideband_BB     lnN       -             1.3          -              -
 r_sideband_BQQ    lnN       -             -            1.3            -
