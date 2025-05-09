@@ -57,4 +57,4 @@ sTWZ_3bin        shape      -         -          -         1.0      -         - 
 sTWZ_2bin        shape      -         -          -         1.0      -         -         -         1.0       -         -         -         1.0       -         -         -         1.0
 
 # autoMCstats
-* autoMCStats 0 1
+* autoMCStats 500 1
