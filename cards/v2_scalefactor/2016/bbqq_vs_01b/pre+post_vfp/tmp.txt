@@ -1,0 +1,40 @@
+Combination of mu=mu_0b+1b.txt  eg=eg_0b+1b.txt
+imax 10 number of bins
+jmax 3 number of processes minus 1
+kmax 36 number of nuisance parameters
+----------------------------------------------------------------------------------------------------------------------------------
+shapes *                 eg_oneb           data/v2_scalefactor/2016/bbqq_vs_01b/WP40/EGamma/AK8_tagger_calib_TT_bbqq_vs_01b_1b_BBQQ_2p0_slc7.root $PROCESS_sideband_TT_bbqq_vs_01b $PROCESS_sideband_TT_bbqq_vs_01b_$SYSTEMATIC
+shapes data_obs          eg_oneb           data/v2_scalefactor/2016/bbqq_vs_01b/WP40/EGamma/AK8_tagger_calib_TT_bbqq_vs_01b_1b_BBQQ_2p0_slc7.root SingleElectron_2016_sideband_TT_bbqq_vs_01b
+shapes *                 eg_oneb           data/v2_scalefactor/2017/bbqq_vs_01b/WP40/EGamma/AK8_tagger_calib_TT_bbqq_vs_01b_1b_BBQQ_2p0_slc7.root $PROCESS_sideband_TT_bbqq_vs_01b $PROCESS_sideband_TT_bbqq_vs_01b_$SYSTEMATIC
+shapes data_obs          eg_oneb           data/v2_scalefactor/2017/bbqq_vs_01b/WP40/EGamma/AK8_tagger_calib_TT_bbqq_vs_01b_1b_BBQQ_2p0_slc7.root SingleElectron_2017_sideband_TT_bbqq_vs_01b
+
+----------------------------------------------------------------------------------------------------------------------------------
+bin          eg_oneb
+observation  -1
+----------------------------------------------------------------------------------------------------------------------------------
+bin                               eg_oneb           eg_oneb           eg_oneb           eg_oneb
+process                           Sum2B2Q           SumBB             SumBQQ            Sum01B
+process                           0                 1                 2                 3
+rate                              -1                -1                -1                -1
+----------------------------------
+r_01B                   lnN       -                 -                 -                 2.0
+r_BB                    lnN       -                 2.0               -                 -
+r_BQQ                   lnN       -                 -                 2.0               -
+r_sideband_01B          lnN       -                 -                 -                 1.3
+r_sideband_BB           lnN       -                 1.3               -                 -
+r_sideband_BQQ          lnN       -                 -                 1.3               -
+s2B2Q_2bin              shape     1.0               -                 -                 -
+s2B2Q_3bin              shape     1.0               -                 -                 -
+s2B2Q_4bin              shape     1.0               -                 -                 -
+sBB_2bin                shape     -                 0.50              -                 -
+sBB_3bin                shape     -                 0.50              -                 -
+sBB_4bin                shape     -                 0.50              -                 -
+sBQQ_2bin               shape     -                 -                 0.50              -
+sBQQ_3bin               shape     -                 -                 0.50              -
+sBQQ_4bin               shape     -                 -                 0.50              -
+sbkg_2bin               shape     -                 1.0               1.0               1.0
+sbkg_3bin               shape     -                 1.0               1.0               1.0
+sbkg_4bin               shape     -                 1.0               1.0               1.0
+
+# autoMCstats
+* autoMCStats 500 1

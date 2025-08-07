@@ -15,10 +15,13 @@ import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument('--dataset')
 parser.add_argument('--outdir')
+parser.add_argument('--WP')
+parser.add_argument('--era')
 
 args = parser.parse_args()
 dataset = args.dataset
 outdir = args.outdir.removesuffix('/')
+WP = args.WP
 
 R.gROOT.SetBatch(True)  ## Don't display histograms or canvases when drawn
 R.gStyle.SetOptStat(0)  ## Don't display stat boxes
@@ -26,27 +29,54 @@ R.gStyle.SetOptStat(0)  ## Don't display stat boxes
 #lep = 'SingleMuon' #'EGamma' #
 ## User configuration
 VERBOSE  = False
-if dataset == 'EGamma':
-    IN_DIR   = '/afs/cern.ch/work/c/csutanta/public/unskimmed_histograms/v2/unskimmed_EGamma_'
-    OUT_DIR  = f'{outdir}/EGamma/'
-elif dataset == 'SingleMuon':
-    IN_DIR   = '/afs/cern.ch/work/c/csutanta/public/unskimmed_histograms/v2/unskimmed_SingleMuon_'
-    OUT_DIR  = f'{outdir}/SingleMuon/'
-else:
-    print('need to provide dataset! exiting.')
-    exit()
+
+if args.era == '2018':
+    if dataset == 'EGamma':
+        IN_DIR   = '/afs/cern.ch/work/c/csutanta/public/unskimmed_histograms/v2_scalefactor/unskimmed_EGamma_'
+        OUT_DIR  = f'{outdir}/EGamma/'
+    elif dataset == 'SingleMuon':
+        IN_DIR   = '/afs/cern.ch/work/c/csutanta/public/unskimmed_histograms/v2_scalefactor/unskimmed_SingleMuon_'
+        OUT_DIR  = f'{outdir}/SingleMuon/'
+    else:
+        print('need to provide dataset! exiting.')
+        exit()
+elif  (args.era == '2017') or (args.era=='2016') or (args.era=='2016APV'):
+    if dataset == 'SingleElectron':
+        IN_DIR   = f'/afs/cern.ch/work/c/csutanta/public/unskimmed_histograms/v2_scalefactor/{args.era}/unskimmed_EGamma_'
+        OUT_DIR  = f'{outdir}/EGamma/'
+    elif dataset == 'SingleMuon':
+        IN_DIR   = f'/afs/cern.ch/work/c/csutanta/public/unskimmed_histograms/v2_scalefactor/{args.era}/unskimmed_SingleMuon_'
+        OUT_DIR  = f'{outdir}/SingleMuon/'
+    else:
+        print('need to provide dataset! exiting.')
+        exit()
+
 
 CATS     = ['1b_BBQ_BBQQ']
 SELS     = ['1b_BBQQ']
-TAGGERS  = {
-    'PNet_TT_bbqq_vs_01b'        : [0.2, 0.5, 0.8],
-}
+if int(WP) == 40:
+    TAGGERS   = {'PNet_TT_bbqq_vs_01b'        : [0.2, 0.5, 0.9],} #WP40
+elif int(WP) == 60:
+    TAGGERS   = {'PNet_TT_bbqq_vs_01b'        : [0.2, 0.5, 0.8],} ## WP60
+else:
+    print("WP not defined. exiting")
+    exit()
+
 TAGNM    = {'PNet_TT_bbqq_vs_01b'        : 'TT_bbqq_vs_01b'}
 SVAR  = 2.0  ## Systematic factor of variation in tagging efficiency
 
-YEAR     = '2018'
-DATA     = dataset#lep
-ERAS     = ['Run'+YEAR+er for er in ['A','B','C','D']]
+YEAR     = str(args.era) # '2018'
+DATA     = dataset
+
+if args.era == '2018':
+    ERAS     = ['Run'+YEAR+er for er in ['A','B','C','D']]
+elif args.era == '2017':
+    ERAS     = ['Run'+YEAR+er for er in ['B','C','D','E','F']]
+elif args.era == '2016':
+    ERAS     = ['Run'+YEAR+er for er in ['F', 'G', 'H']]
+elif args.era == '2016APV':
+    ERAS     = ['Run'+'2016'+er for er in ['B_ver2_HIPM', 'C_HIPM', 'D_HIPM', 'E_HIPM', 'F_HIPM']]
+
 
 MC_2bq   = ['TTToSemiLeptonic_powheg_bbqq',
             'TTToSemiLeptonic_powheg_bbq']

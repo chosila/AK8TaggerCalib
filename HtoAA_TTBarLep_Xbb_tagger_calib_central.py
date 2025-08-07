@@ -16,72 +16,54 @@ import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument('--dataset')
 parser.add_argument('--outdir')
-parser.add_argument('--WP')
-parser.add_argument('--era')
-
 
 args = parser.parse_args()
 dataset = args.dataset
 outdir = args.outdir.removesuffix('/')
-WP = args.WP
+
 
 R.gROOT.SetBatch(True)  ## Don't display histograms or canvases when drawn
 R.gStyle.SetOptStat(0)  ## Don't display stat boxes
 
 ## User configuration
 VERBOSE  = False
-
-if args.era == '2018':
-    if dataset == 'EGamma':
-        IN_DIR   = f'/afs/cern.ch/work/c/csutanta/public/unskimmed_histograms/v2_scalefactor/{args.era}/unskimmed_EGamma_'
-        OUT_DIR  = f'{outdir}/EGamma/'
-    elif dataset == 'SingleMuon':
-        IN_DIR   = f'/afs/cern.ch/work/c/csutanta/public/unskimmed_histograms/v2_scalefactor/{args.era}/unskimmed_SingleMuon_'
-        OUT_DIR  = f'{outdir}/SingleMuon/'
-    else:
-        print('need to provide dataset! exiting.')
-        exit()
-elif (args.era == '2017') or (args.era=='2016') or (args.era=='2016APV'):
-    if dataset == 'SingleElectron':
-        IN_DIR   = f'/afs/cern.ch/work/c/csutanta/public/unskimmed_histograms/v2_scalefactor/{args.era}/unskimmed_EGamma_'
-        OUT_DIR  = f'{outdir}/EGamma/'
-    elif dataset == 'SingleMuon':
-        IN_DIR   = f'/afs/cern.ch/work/c/csutanta/public/unskimmed_histograms/v2_scalefactor/{args.era}/unskimmed_SingleMuon_'
-        OUT_DIR  = f'{outdir}/SingleMuon/'
-    else:
-        print('need to provide dataset! exiting.')
-        exit()
-
-CATS     = ['bdtVeto',
-            'bdtLo',
-            'bdtMed',
-            'bdtHi']
-SELS     = ['0b_BBQQ']
-if int(WP) == 40:
-    TAGGERS   = {'PNet_TT_bbqq_vs_01b'        : [0.2, 0.5, 0.9],} #WP40
-elif int(WP) == 60:
-    TAGGERS   = {'PNet_TT_bbqq_vs_01b'        : [0.2, 0.5, 0.8],} ## WP60
-else :
-    print('WP not defined. exitting')
+if dataset == 'EGamma':
+    IN_FILE   = '/afs/cern.ch/work/c/csutanta/HTOAA_CMSSW/analysis/v1_202505_scalefactor/unskimmed_egamma_1b_BBQ_BBQQ/2017/analyze_htoaa_stage1.root' # '/afs/cern.ch/work/c/csutanta/public/unskimmed_histograms/v1_scalefactor/unskimmed_EGamma_'
+    OUT_DIR  = f'{outdir}/EGamma/'
+elif dataset == 'SingleMuon':
+    IN_FILE   = '<link to in file>' # '/afs/cern.ch/work/c/csutanta/public/unskimmed_histograms/v1_scalefactor/unskimmed_SingleMuon_'
+    OUT_DIR  = f'{outdir}/SingleMuon/'
+else:
+    print('need to provide dataset! exiting.')
     exit()
 
+
+CATS     = ['0b_BBQQ_bdtVeto',
+            '0b_BBQQ_bdtLo',
+            '0b_BBQQ_bdtMed',
+            '0b_BBQQ_bdtHi',
+            '1b_BBQQ']
+# SELS     = ['0b_BBQQ']
+
+# SELS = {
+#     '0b_BBQQ' : ['bdtVeto', 'bdtLo', 'bdtMed', 'bdtHi'],
+#     '1b_BBQQ' : ['']
+# }
+
+
+
+TAGGERS   = {
+    'particleNetMD_XbbOverQCD':[0.1,0.5,0.75]
+}
 TAGNM     = {
-    'PNet_TT_bbqq_vs_01b'        : 'TT_bbqq_vs_01b'
+    'particleNetMD_XbbOverQCD':'Xbb'
 }
 SVAR  = 2.0  ## Systematic factor of variation in tagging efficiency
 
-YEAR     = str(args.era)#'2018'
+YEAR     = '2018'
 DATA     = dataset
 
-if args.era == '2018':
-    ERAS     = ['Run'+YEAR+er for er in ['A','B','C','D']]
-elif args.era == '2017':
-    ERAS     = ['Run'+YEAR+er for er in ['B','C','D','E','F']]
-elif args.era == '2016':
-    ERAS     = ['Run'+YEAR+er for er in ['F', 'G', 'H']]
-elif args.era == '2016APV':
-    ERAS     = ['Run'+'2016'+er for er in ['B_ver2_HIPM', 'C_HIPM', 'D_HIPM', 'E_HIPM', 'F_HIPM']]
-
+ERAS     = ['Run'+YEAR+er for er in ['A','B','C','D']]
 
 MC_2bq   = ['TTToSemiLeptonic_powheg_bbqq',
             'TTToSemiLeptonic_powheg_bbq']
@@ -206,15 +188,35 @@ def main():
 
     ## Initialize dictionary of output histograms
     h_outs = {}
-    for sel in SELS:
-        h_outs[sel] = {}
+    #for sel in SELS:
+    #    h_outs[sel] = {}
+
+
+    for cat in CATS:
+        in_file_str = IN_FILE
+        in_file = R.TFile(in_file_str, 'open')
+        print('\n*******\nReading from %s' % in_file_str)
+        for tag in TAGGERS.keys():
+            h_in_name = 'evt/'+DATA+'_'+era+'/'+tag+'_sel_'+sel+'_noweight'
+            h_in = in_file.Get(h_in_name)
+            ## Fill new rebinned histogram with events in tagger ranges
+            if '0b' in cat:
+                h_out_name = DATA+'_'+YEAR+'_'+cat.replace('0b_BBQQ')+'_'+TAGNM[tag]
+            else:
+                h_out_name = DATA+'_'+YEAR+'_sideband_'+TAGNM[tag]
+            if not h_out_name in h_outs[sel].keys():
+                h_outs[sel][h_out_name] = R.TH1D(h_out_name, h_out_name, nCuts+1, 0, nCuts+1)
+                h_outs[sel][h_out_name].SetDirectory(0) ## Save locally
+            fill_pass_fail(h_in, h_outs[sel][h_out_name], TAGGERS[tag])
+            exit()
+
+
 
     for cat in CATS:
         if VERBOSE: print('\nNow looking at category %s' % cat)
-        in_file_str = IN_DIR+cat+'.root'
+        in_file_str = IN_FILE #IN_DIR+cat+'.root'
         in_file = R.TFile(in_file_str, 'open')
         print('\n*******\nReading from %s' % in_file_str)
-
         for sel in SELS:
             if VERBOSE: print('\nNow looking at selection %s' % sel)
             for tag in TAGGERS.keys():
@@ -235,7 +237,6 @@ def main():
                     if not h_out_name in h_outs[sel].keys():
                         h_outs[sel][h_out_name] = R.TH1D(h_out_name, h_out_name, nCuts+1, 0, nCuts+1)
                         h_outs[sel][h_out_name].SetDirectory(0) ## Save locally
-
                     fill_pass_fail(h_in, h_outs[sel][h_out_name], TAGGERS[tag])
                 ## End loop: for era in ERAS
 
@@ -259,11 +260,11 @@ def main():
                         sys.exit()
                     fill_pass_fail(h_in, h_outs[sel][h_out_name], TAGGERS[tag])
 
-                    if mc in MC_2bq: systs = ['2bq','2B2Q']
-                    if mc in MC_2b:  systs = ['2b', 'BB']
-                    if mc in MC_bqq: systs = ['bqq','BQQ']
-                    if mc in MC_1b:  systs = ['1b', '01B']
-                    if mc in MC_0b:  systs = ['01b', '01B']
+                    if mc in MC_2bq: systs = ['2bq','2B']
+                    if mc in MC_2b:  systs = ['2b', '2B']
+                    if mc in MC_bqq: systs = ['bqq','1B']
+                    if mc in MC_1b:  systs = ['1b', '1B']
+                    if mc in MC_0b:  systs = ['0b']
                     for syst in systs:
                         ## Generate additional histograms with sum of MC
                         h_MC_name = 'Sum'+syst+'_'+cat+'_'+TAGNM[tag]
@@ -303,7 +304,6 @@ def main():
     ## Create a separate output ROOT file for each selection option
     for sel in SELS:
         tag_str = '%s'.join(TAGNM[tag] for tag in TAGGERS.keys())
-        # out_file_str = OUT_DIR+'AK8_tagger_calib_%s_%s_%s_slc7.root' % (tag_str, sel, str(SVAR).replace('.','p'))
         out_file_str = OUT_DIR+'AK8_tagger_calib_%s_%s_%s_slc7.root' % (tag_str, sel, str(SVAR).replace('.','p'))
         out_file = R.TFile(out_file_str, 'recreate')
         print('\n*******\nWriting to %s' % out_file_str)

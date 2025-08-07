@@ -19,11 +19,10 @@ parser.add_argument('--outdir')
 parser.add_argument('--WP')
 parser.add_argument('--era')
 
-
 args = parser.parse_args()
 dataset = args.dataset
 outdir = args.outdir.removesuffix('/')
-WP = args.WP
+
 
 R.gROOT.SetBatch(True)  ## Don't display histograms or canvases when drawn
 R.gStyle.SetOptStat(0)  ## Don't display stat boxes
@@ -33,9 +32,11 @@ VERBOSE  = False
 
 if args.era == '2018':
     if dataset == 'EGamma':
+        #IN_DIR   = '/afs/cern.ch/work/c/csutanta/public/unskimmed_histograms/v1_scalefactor/unskimmed_EGamma_'
         IN_DIR   = f'/afs/cern.ch/work/c/csutanta/public/unskimmed_histograms/v2_scalefactor/{args.era}/unskimmed_EGamma_'
         OUT_DIR  = f'{outdir}/EGamma/'
     elif dataset == 'SingleMuon':
+        #IN_DIR   = '/afs/cern.ch/work/c/csutanta/public/unskimmed_histograms/v1_scalefactor/unskimmed_SingleMuon_'
         IN_DIR   = f'/afs/cern.ch/work/c/csutanta/public/unskimmed_histograms/v2_scalefactor/{args.era}/unskimmed_SingleMuon_'
         OUT_DIR  = f'{outdir}/SingleMuon/'
     else:
@@ -57,20 +58,27 @@ CATS     = ['bdtVeto',
             'bdtMed',
             'bdtHi']
 SELS     = ['0b_BBQQ']
-if int(WP) == 40:
-    TAGGERS   = {'PNet_TT_bbqq_vs_01b'        : [0.2, 0.5, 0.9],} #WP40
-elif int(WP) == 60:
-    TAGGERS   = {'PNet_TT_bbqq_vs_01b'        : [0.2, 0.5, 0.8],} ## WP60
-else :
-    print('WP not defined. exitting')
-    exit()
+#TAGGERS   = {'PNet_TT_bbqq_vs_01b'        : [0.2, 0.5, 0.8],}
+if int(args.WP) == 60:
+   TAGGERS  = {'PNet_X4b_v2_Haa34b_score':[0.40,0.66,0.93]}  ## For WP60
+   # TAGGERS  = {'PNet_X4b_v2_Haa4b_score':[0.40,0.66,0.93]}  ## For WP60
+elif int(args.WP) == 40:
+   TAGGERS  = {'PNet_X4b_v2_Haa34b_score':[0.40,0.84,0.96]}  ## For WP40
+   #TAGGERS  = {'PNet_X4b_v2_Haa4b_score':[0.40,0.84,0.96]}  ## For WP40
+elif int(args.WP) == 80:
+    TAGGERS = {'PNet_X4b_v2_Haa34b_score':[0.10,0.40,0.84]} ## WP80
+    #TAGGERS = {'PNet_X4b_v2_Haa4b_score':[0.10,0.40,0.84]} ## WP80
+else:
+
+   print('wrong working point input. check')
 
 TAGNM     = {
-    'PNet_TT_bbqq_vs_01b'        : 'TT_bbqq_vs_01b'
+    #'PNet_X4b_v2_Haa4b_score' : 'X4b_v2_Haa4b'
+    'PNet_X4b_v2_Haa34b_score' : 'X4b_v2_Haa34b'
 }
 SVAR  = 2.0  ## Systematic factor of variation in tagging efficiency
 
-YEAR     = str(args.era)#'2018'
+YEAR     = str(args.era) # '2018'
 DATA     = dataset
 
 if args.era == '2018':
@@ -271,6 +279,9 @@ def main():
                             h_outs[sel][h_MC_name] = R.TH1D(h_MC_name, h_MC_name, nCuts+1, 0, nCuts+1)
                             h_outs[sel][h_MC_name].SetDirectory(0) ## Save locally
                         h_outs[sel][h_MC_name].Add(h_outs[sel][h_out_name])
+                        # print(f'{h_in_name=} : {h_in.Integral()}')
+                        # print(f'{h_out_name=} : {h_outs[sel][h_out_name].Integral()}')
+                        # print(f'{h_MC_name=} : {h_outs[sel][h_MC_name].Integral()}')
 
                         ## Perform systematic variations
                         for h_syst in make_syst_hists(h_outs[sel][h_out_name], syst):
@@ -303,8 +314,7 @@ def main():
     ## Create a separate output ROOT file for each selection option
     for sel in SELS:
         tag_str = '%s'.join(TAGNM[tag] for tag in TAGGERS.keys())
-        # out_file_str = OUT_DIR+'AK8_tagger_calib_%s_%s_%s_slc7.root' % (tag_str, sel, str(SVAR).replace('.','p'))
-        out_file_str = OUT_DIR+'AK8_tagger_calib_%s_%s_%s_slc7.root' % (tag_str, sel, str(SVAR).replace('.','p'))
+        out_file_str = OUT_DIR+'AK8_tagger_calib_%s_0b_WP%s_%s_slc7.root' % (tag_str, args.WP, str(SVAR).replace('.','p'))
         out_file = R.TFile(out_file_str, 'recreate')
         print('\n*******\nWriting to %s' % out_file_str)
         for h_out_name in h_outs[sel].keys():

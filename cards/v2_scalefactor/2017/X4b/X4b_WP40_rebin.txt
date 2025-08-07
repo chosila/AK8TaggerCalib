@@ -1,3 +1,5 @@
+THIS IS FOR 2018. NEED TO MODIFY FOR 2017 WHEN
+
 imax    4 number of bins
 jmax    3 number of processes minus 1
 kmax    * number of nuisance parameters

@@ -2,8 +2,8 @@ imax    4 number of bins
 jmax    3 number of processes minus 1
 kmax    * number of nuisance parameters
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-shapes        * *  /afs/cern.ch/work/a/abrinke1/public/HiggsToAA/coffea/eventloop/plots/HtoAA_QCD_AK8_tagger_calib/AK8_tagger_calib_X4b_v2_WP40_2p0_slc7.root $PROCESS_$CHANNEL_X4b_v2 $PROCESS_$CHANNEL_X4b_v2_$SYSTEMATIC
-shapes data_obs *  /afs/cern.ch/work/a/abrinke1/public/HiggsToAA/coffea/eventloop/plots/HtoAA_QCD_AK8_tagger_calib/AK8_tagger_calib_X4b_v2_WP40_2p0_slc7.root Data_2018_$CHANNEL_X4b_v2
+shapes        * *  data/v2_scalefactor/runII/X4b/AK8_tagger_calib_X4b_v2_WP60_2p0_slc7.root $PROCESS_$CHANNEL_X4b_v2 $PROCESS_$CHANNEL_X4b_v2_$SYSTEMATIC
+shapes data_obs *  data/v2_scalefactor/runII/X4b/AK8_tagger_calib_X4b_v2_WP60_2p0_slc7.root Data_runII_$CHANNEL_X4b_v2
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 bin              c3M2T   c3M3T    c4M3T   c4M4T
@@ -15,7 +15,6 @@ process                     0         1         2         3         0         1 
 rate                        -1        -1        -1        -1        -1        -1        -1        -1        -1        -1        -1        -1        -1        -1        -1        -1
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # Each sample should have 100% rate uncertainty (lnN = 2.0)
-# r_3M2T_Sum4B this is signal r
 r_c3M2T_3B       lnN        -        2.0        -         -         -         -         -         -         -         -         -         -         -         -         -         -
 r_c3M2T_012B     lnN        -        -          2.0       -         -         -         -         -         -         -         -         -         -         -         -         -
 r_c3M2T_TWZ      lnN        -        -          -         2.0       -         -         -         -         -         -         -         -         -         -         -         -
@@ -55,4 +54,4 @@ sTWZ_3bin        shape      -         -          -         1.0      -         - 
 sTWZ_2bin        shape      -         -          -         1.0      -         -         -         1.0       -         -         -         1.0       -         -         -         1.0
 
 # autoMCstats
-#* autoMCStats 500 1
+* autoMCStats 500 1

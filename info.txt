@@ -1,0 +1,42 @@
+
+## for X4B
+## WP40 [-.75,.25], WP60[0,.75]
+combine -M MultiDimFit cards/v2/X4b/x4b_WP<WP>.txt --setParameterRanges s4B_4bin=<range> --setParameters s4B_4bin=0  --algo grid --parameters s4B_4bin  --points 1001 --floatOtherPOIs yes --redefineSignalPOIs s4B_4bin --preFitValue 0 -n X4b_WP<WP>
+
+python plot_nll.py <link to higgscombine.root> <plotname>
+
+source runimpact.sh cards/v2/X4b/x4b_WP<WP>.txt X4b_WP<WP>
+
+combine -M FitDiagnostics cards/v2/X4b/x4b_WP<WP>.txt --setParameterRanges s4B_4bin=<range> --setParameters s4B_4bin=0  --redefineSignalPOIs s4B_4bin --preFitValue 0   --do95 1 --robustFit 1 --stepSize 0.01 --setRobustFitTolerance 0.02 --minos all --profilingMode all --saveShapes --saveWithUncertainties --cminDefaultMinimizerStrategy 0 -n X4b_WP<WP>
+
+
+
+## latest fitdiagnostics version with tt_bbqq_vs_01b
+combine -M FitDiagnostics cards/v2/splitbkg_BB_BQQ_01B/mu+eg_0b+1b.txt --setParameterRanges s2B2Q_4bin=-2,2  --redefineSignalPOIs s2B2Q_4bin --do95 1 --robustFit 1 --stepSize 0.01 --setRobustFitTolerance 0.02 --minos all --profilingMode all --saveShapes --saveWithUncertainties
+
+
+
+
+
+
+
+
+combine -M MultiDimFit cards/tagger_calib_card_0b_BBQQ.txt --setParameterRanges s2B_4bin=-.6,.8  --algo grid --parameters s2B_4bin --points 1000 --floatOtherPOIs yes
+
+
+combine -M FitDiagnostics cards/EGamma/tagger_calib_card_Hto34b_0b_BBQ.txt --setParameterRanges r=0,5 --do95 1 --robustFit 1 --stepSize 0.01 --setRobustFitTolerance 0.02 --minos all --profilingMode all --saveShapes --saveWithUncertainties --skipBOnlyFit --plots
+
+
+## combined single mu + egamma
+combine -M MultiDimFit cards/combined_cards/tagger_calib_card_Xbb_0b_BBQ.txt --setParameterRanges s2B_4bin=-0.12,1.15  --algo grid --parameters s2B_4bin --points 1001 --floatOtherPOIs yes
+
+
+
+
+## command from Dr. Bhoff from slack
+combine -M MultiDimFit cards/tagger_calib_card_0b_BBQQ.txt --setParameterRanges s2B_4bin=-0.805,3.205  --algo grid --parameters s2B_4bin --points 401 --floatOtherPOIs yes
+
+
+## Command for the latest bdt split scans 4bins
+## redefine signal pois might getrid of prior and scan freely
+combine -M MultiDimFit cards/combined_cards/tagger_calib_card_Xbb_0b_BBQ.txt --setParameterRanges s2B_4bin=-1.5,2  --algo grid --parameters s2B_4bin --points 1001 --floatOtherPOIs yes --redefineSignalPOIs s2B_4bin
