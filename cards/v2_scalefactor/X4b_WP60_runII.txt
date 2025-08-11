@@ -14,32 +14,32 @@ process                     Sum4B     Sum3B     Sum012B   SumTWZ    Sum4B     Su
 process                     0         1         2         3         0         1         2         3         0         1         2         3         0         1         2         3
 rate                        -1        -1        -1        -1        -1        -1        -1        -1        -1        -1        -1        -1        -1        -1        -1        -1
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-# Each sample should have 100% rate uncertainty (lnN = 3.0)
-r_TWZ              lnN      -         -         -         3.0       -         -         -         3.0       -         -         -          3.0      -         -         -         3.0
-r_012B             lnN      -         -         3.0       -         -         -         3.0       -         -         -         3.0        -        -         -         3.0       -
-r_3B               lnN      -         3.0       -         -         -         3.0       -         -         -         3.0       -          -        -         3.0       -         -
+# Each sample should have 150% rate uncertainty (lnN = 1.5)
+r_TWZ              lnN      -         -         -         1.5       -         -         -         1.5       -         -         -          1.5      -         -         -         1.5
+r_012B             lnN      -         -         1.5       -         -         -         1.5       -         -         -         1.5        -        -         -         1.5       -
+r_3B               lnN      -         1.5       -         -         -         1.5       -         -         -         1.5       -          -        -         1.5       -         -
 
-# Also add 50% rate uncertainties (lnN = 2.0) for each sample separately for each of the the 3M2T and 3M3T categories
-r_c3M2T_4B         lnN      2.0      -          -         -         -         -         -         -         -         -         -         -         -         -         -         -
-r_c3M2T_3B         lnN      -        2.0        -         -         -         -         -         -         -         -         -         -         -         -         -         -
-r_c3M2T_012B       lnN      -        -          2.0       -         -         -         -         -         -         -         -         -         -         -         -         -
-r_c3M2T_TWZ        lnN      -        -          -         2.0       -         -         -         -         -         -         -         -         -         -         -         -
+# Also add rate uncertainties for each sample separately for each of the the 3M2T (150%) and 3M3T (200%) categories
+r_c3M2T_4B         lnN      1.5      -          -         -         -         -         -         -         -         -         -         -         -         -         -         -
+r_c3M2T_3B         lnN      -        1.5        -         -         -         -         -         -         -         -         -         -         -         -         -         -
+r_c3M2T_012B       lnN      -        -          1.5       -         -         -         -         -         -         -         -         -         -         -         -         -
+r_c3M2T_TWZ        lnN      -        -          -         1.5       -         -         -         -         -         -         -         -         -         -         -         -
 
 r_c3M3T_4B         lnN      -        -          -         -         2.0       -         -         -         -         -         -         -         -         -         -         -
 r_c3M3T_3B         lnN      -        -          -         -         -         2.0       -         -         -         -         -         -         -         -         -         -
 r_c3M3T_012B       lnN      -        -          -         -         -         -         2.0       -         -         -         -         -         -         -         -         -
 r_c3M3T_TWZ        lnN      -        -          -         -         -         -         -         2.0       -         -         -         -         -         -         -         -
 
-# Also add 100% rate uncertainties for each sample separately for each of the 4M3T and 4M4T categories
-r_c4M3T_4B         lnN      -        -          -         -         -         -         -         -         3.0       -         -         -         -         -         -         -
-r_c4M3T_3B         lnN      -        -          -         -         -         -         -         -         -         3.0       -         -         -         -         -         -
-r_c4M3T_012B       lnN      -        -          -         -         -         -         -         -         -         -         3.0       -         -         -         -         -
-r_c4M3T_TWZ        lnN      -        -          -         -         -         -         -         -         -         -         -         3.0       -         -         -         -
+# Also add 200% rate uncertainties for each sample separately for each of the 4M3T and 4M4T categories
+r_c4M3T_4B         lnN      -        -          -         -         -         -         -         -         2.0       -         -         -         -         -         -         -
+r_c4M3T_3B         lnN      -        -          -         -         -         -         -         -         -         2.0       -         -         -         -         -         -
+r_c4M3T_012B       lnN      -        -          -         -         -         -         -         -         -         -         2.0       -         -         -         -         -
+r_c4M3T_TWZ        lnN      -        -          -         -         -         -         -         -         -         -         -         2.0       -         -         -         -
 
-r_c4M4T_4B         lnN      -        -          -         -         -         -         -         -         -         -         -         -         3.0       -         -         -
-r_c4M4T_3B         lnN      -        -          -         -         -         -         -         -         -         -         -         -         -         3.0       -         -
-r_c4M4T_012B       lnN      -        -          -         -         -         -         -         -         -         -         -         -         -         -         3.0       -
-r_c4M4T_TWZ        lnN      -        -          -         -         -         -         -         -         -         -         -         -         -         -         -         3.0
+r_c4M4T_4B         lnN      -        -          -         -         -         -         -         -         -         -         -         -         2.0       -         -         -
+r_c4M4T_3B         lnN      -        -          -         -         -         -         -         -         -         -         -         -         -         2.0       -         -
+r_c4M4T_012B       lnN      -        -          -         -         -         -         -         -         -         -         -         -         -         -         2.0       -
+r_c4M4T_TWZ        lnN      -        -          -         -         -         -         -         -         -         -         -         -         -         -         -         2.0
 
 # shape uncertainty scales should all be set to 1.0 s4B_xbin
 s4B_4bin         shape      1.0       -          -         -        1.0       -         -         -         1.0       -         -         -         1.0       -         -         -

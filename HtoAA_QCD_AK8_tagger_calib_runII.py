@@ -177,7 +177,7 @@ def main():
                 if VERBOSE: print('\nNow looking at data')
                 in_file_str = IN_DIR.format(YEAR=YEAR)+'CR4b_'+cat+'/CR4b_'+cat+'_'+DATA+'_'+YEAR+'.root'
                 in_file = R.TFile(in_file_str, 'open')
-                # print('\n*******\nReading from %s' % in_file_str)
+                print('\n*******\nReading from %s' % in_file_str)
                 h_in_name = 'CR4b_'+cat+'_'+DATA+'_'+YEAR+'_'+tag+'_Nom'
                 h_in = in_file.Get(h_in_name)
                 if VERBOSE: print('\nGot histogram %s' % h_in_name)
@@ -205,11 +205,10 @@ def main():
                     if VERBOSE: print('\nNow looking at MC sample %s' % mc)
                     in_file_str = IN_DIR.format(YEAR=YEAR)+'CR4b_'+cat+'/CR4b_'+cat+'_'+mc+'_'+YEAR+'.root'
                     in_file = R.TFile(in_file_str, 'open')
-                    # print('\n*******\nReading from %s' % in_file_str)
+                    print('\n*******\nReading from %s' % in_file_str)
                     h_in_name = 'CR4b_'+cat+'_'+mc+'_'+YEAR+'_'+tag+'_Nom'
                     h_in = in_file.Get(h_in_name)
                     h_in = h_in * 1.5 # 1.5 scaling factor for MC to better match data
-
                     if VERBOSE: print('\nGot histogram %s' % h_in_name)
                     if VERBOSE: print('  * Integral = %.1f' % h_in.Integral())
 
@@ -312,42 +311,44 @@ def main():
     ## Create summed histograms across 4M3T, and 4M4T for TWZ to use as shape template for 4M4T? and 4M3T?
     ## for TWZ, 3M3T looks significantly different from 4MxT
     h_summs = {}
-    base = 'SumTWZ_c4M3T_X4b_v2'
-    for h_out_name in h_outs.keys():
-        if not h_out_name.startswith(base) : continue
-        suff = h_out_name.replace(base, '')
-        summ = base.replace('4M3T','34T')+suff
-        ## Sanity check: summ should not already exist
-        if summ in h_summs.keys():
-            print('\n\nWEIRD ERROR!!! %s already exists, but now revisiting. Will quit instead.\n\n' % summ)
-            sys.exit()
-        h_summs[summ] = h_outs[h_out_name].Clone(summ)
-        n_4M4T = h_out_name.replace('4M3T','4M4T')
-        h_summs[summ].Add(h_outs[n_4M4T])
-        yields = {
-            '4M3T': h_outs[base].Integral(),
-            '4M4T': h_outs[base.replace('4M3T','4M4T')].Integral(),
-            '34T':  h_summs[summ].Integral()
-        }
-        ## Sanity check: 34T should add up to sum of other categories
-        diff = yields['34T'] - yields['4M4T'] - yields['4M3T']
-        if abs(diff) > 0.01:
-            print('\n\nWEIRD ERROR!!! For %s, 34T = %.4f (%.f higher than sum). Quitting.' % (h_out_name, yields['34T'], diff))
-            for yld in yields.keys():
-                print('%s = %.4f' % (yld, yields[yld]))
-            sys.exit()
-        scale_4M3T = yields['4M3T'] / yields['34T']
-        scale_4M4T = yields['4M4T'] / yields['34T']
-        for iBin in range(1, h_summs[summ].GetNbinsX()+1):
-            h_outs[n_4M3T].SetBinContent(iBin, h_summs[summ].GetBinContent(iBin)*scale_4M3T)
-            h_outs[n_4M3T].SetBinError  (iBin, h_summs[summ].GetBinError  (iBin)*scale_4M3T)
-            h_outs[n_4M4T].SetBinContent(iBin, h_summs[summ].GetBinContent(iBin)*scale_4M4T)
-            h_outs[n_4M4T].SetBinError  (iBin, h_summs[summ].GetBinError  (iBin)*scale_4M4T)
-        ## End loop: for iBin in range(1, h_summs[summ].GetNbinsX()+1)
-        h_summs[summ].SetDirectory(0) ## Save locally
-        h_outs[n_4M3T].SetDirectory(0) ## Save locally
-        h_outs[n_4M4T].SetDirectory(0) ## Save locally
-    ## End loop: for h_out_name in h_outs.keys()
+    for tag in TAGGERS.keys():
+        base = 'SumTWZ_c4M3T_' + TAGNM[tag]
+        for h_out_name in h_outs.keys():
+            if not h_out_name.startswith(base) : continue
+            suff = h_out_name.replace(base, '')
+            summ = base.replace('4M3T','34T')+suff
+            ## Sanity check: summ should not already exist
+            if summ in h_summs.keys():
+                print('\n\nWEIRD ERROR!!! %s already exists, but now revisiting. Will quit instead.\n\n' % summ)
+                sys.exit()
+            h_summs[summ] = h_outs[h_out_name].Clone(summ)
+            n_4M4T = h_out_name.replace('4M3T','4M4T')
+            h_summs[summ].Add(h_outs[n_4M4T])
+            yields = {
+                '4M3T': h_outs[base].Integral(),
+                '4M4T': h_outs[base.replace('4M3T','4M4T')].Integral(),
+                '34T':  h_summs[summ].Integral()
+            }
+            ## Sanity check: 34T should add up to sum of other categories
+            diff = yields['34T'] - yields['4M4T'] - yields['4M3T']
+            if abs(diff) > 0.01:
+                print('\n\nWEIRD ERROR!!! For %s, 34T = %.4f (%.f higher than sum). Quitting.' % (h_out_name, yields['34T'], diff))
+                for yld in yields.keys():
+                    print('%s = %.4f' % (yld, yields[yld]))
+                sys.exit()
+            scale_4M3T = yields['4M3T'] / yields['34T']
+            scale_4M4T = yields['4M4T'] / yields['34T']
+            for iBin in range(1, h_summs[summ].GetNbinsX()+1):
+                h_outs[n_4M3T].SetBinContent(iBin, h_summs[summ].GetBinContent(iBin)*scale_4M3T)
+                h_outs[n_4M3T].SetBinError  (iBin, h_summs[summ].GetBinError  (iBin)*scale_4M3T)
+                h_outs[n_4M4T].SetBinContent(iBin, h_summs[summ].GetBinContent(iBin)*scale_4M4T)
+                h_outs[n_4M4T].SetBinError  (iBin, h_summs[summ].GetBinError  (iBin)*scale_4M4T)
+            ## End loop: for iBin in range(1, h_summs[summ].GetNbinsX()+1)
+            h_summs[summ].SetDirectory(0) ## Save locally
+            h_outs[n_4M3T].SetDirectory(0) ## Save locally
+            h_outs[n_4M4T].SetDirectory(0) ## Save locally
+        ## End loop: for h_out_name in h_outs.keys()
+    ## End loop : for tag in TAGGERS.keys()
     h_outs.update(h_summs)  ## Merge two dictionaries of histograms
 
 
