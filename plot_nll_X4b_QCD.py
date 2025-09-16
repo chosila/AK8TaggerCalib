@@ -11,7 +11,7 @@ parser.add_argument('pltname')
 args = parser.parse_args()
 
 f = uproot.open(args.filename)
-
+nbin = '4' if '4bins' in args.filename else '3'
 g = f['limit']
 
 def find_nearest(array, value):
@@ -19,12 +19,13 @@ def find_nearest(array, value):
     idx = (np.abs(array - value)).argmin()
     return idx
 
-s2b = np.array(g['s4B_4bin'])
+
+s2b = np.array(g[f's4B_{nbin}bin'])
 nll = np.array(g['deltaNLL'])
 fig, ax = plt.subplots(figsize=(9,6.5))
 ax.plot(s2b, nll, '.')
 ax.set_ylabel('-deltaNLL', loc='top', fontsize=16)
-ax.set_xlabel('s4B_4bin', loc='right', fontsize=16)
+ax.set_xlabel(f's4B_{nbin}bin', loc='right', fontsize=16)
 
 ax.set_title(f'{args.pltname}', loc='right', fontsize=18)
 

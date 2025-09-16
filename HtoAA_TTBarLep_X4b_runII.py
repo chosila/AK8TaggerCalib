@@ -30,29 +30,6 @@ R.gStyle.SetOptStat(0)  ## Don't display stat boxes
 ## User configuration
 VERBOSE  = False
 
-# if args.era == '2018':
-#     if dataset == 'EGamma':
-#         #IN_DIR   = '/afs/cern.ch/work/c/csutanta/public/unskimmed_histograms/v1_scalefactor/unskimmed_EGamma_'
-#         IN_DIR   = '/afs/cern.ch/work/c/csutanta/public/unskimmed_histograms/v2_scalefactor/unskimmed_EGamma_'
-#         OUT_DIR  = f'{outdir}/EGamma/'
-#     elif dataset == 'SingleMuon':
-#         #IN_DIR   = '/afs/cern.ch/work/c/csutanta/public/unskimmed_histograms/v1_scalefactor/unskimmed_SingleMuon_'
-#         IN_DIR   = '/afs/cern.ch/work/c/csutanta/public/unskimmed_histograms/v2_scalefactor/unskimmed_SingleMuon_'
-#         OUT_DIR  = f'{outdir}/SingleMuon/'
-#     else:
-#         print('need to provide dataset! exiting.')
-#         exit()
-# elif (args.era == '2017') or (args.era=='2016') or (args.era=='2016APV'):
-#     if dataset == 'SingleElectron':
-#         IN_DIR   = f'/afs/cern.ch/work/c/csutanta/public/unskimmed_histograms/v2_scalefactor/{args.era}/unskimmed_EGamma_'
-#         OUT_DIR  = f'{outdir}/EGamma/'
-#     elif dataset == 'SingleMuon':
-#         IN_DIR   = f'/afs/cern.ch/work/c/csutanta/public/unskimmed_histograms/v2_scalefactor/{args.era}/unskimmed_SingleMuon_'
-#         OUT_DIR  = f'{outdir}/SingleMuon/'
-#     else:
-#         print('need to provide dataset! exiting.')
-#         exit()
-#
 if dataset == 'SingleElectron':
     IN_DIR   = '/afs/cern.ch/work/c/csutanta/public/unskimmed_histograms/v2_scalefactor/{year}/unskimmed_EGamma_'
     OUT_DIR  = f'{outdir}/EGamma/'
@@ -70,7 +47,7 @@ CATS     = [
     'bdtHi'
 ]
 SELS     = ['0b_BBQQ']
-#TAGGERS   = {'PNet_TT_bbqq_vs_01b'        : [0.2, 0.5, 0.8],}
+
 if int(args.WP) == 60:
    TAGGERS  = {'PNet_X4b_v2_Haa34b_score':[0.40,0.66,0.93]}  ## For WP60
    # TAGGERS  = {'PNet_X4b_v2_Haa4b_score':[0.40,0.66,0.93]}  ## For WP60
@@ -85,27 +62,16 @@ else:
    print('wrong working point input. check')
 
 TAGNM     = {
-    #'PNet_X4b_v2_Haa4b_score' : 'X4b_v2_Haa4b'
     'PNet_X4b_v2_Haa34b_score' : 'X4b_v2_Haa34b'
 }
 SVAR  = 2.0  ## Systematic factor of variation in tagging efficiency
 
-# YEAR     = str(args.era) # '2018'
 DATA     = dataset
-
-# if args.era == '2018':
-#     ERAS     = ['Run'+YEAR+er for er in ['A','B','C','D']]
-# elif args.era == '2017':
-#     ERAS     = ['Run'+YEAR+er for er in ['B','C','D','E','F']]
-# elif args.era == '2016':
-#     ERAS     = ['Run'+YEAR+er for er in ['F', 'G', 'H']]
-# elif args.era == '2016APV':
-#     ERAS     = ['Run'+'2016'+er for er in ['B_ver2_HIPM', 'C_HIPM', 'D_HIPM', 'E_HIPM', 'F_HIPM']]
 
 YEARS = {'2018' :    ['Run2018'+er for er in ['A', 'B','C','D']],
          '2017' :    ['Run2017'+er for er in ['B', 'C','D','E','F']],
-         # '2016' :    ['Run2016'+er for er in ['F', 'G', 'H']],
-         #'2016APV' : ['Run2016'+er for er in ['B_ver2_HIPM', 'C_HIPM', 'D_HIPM', 'E_HIPM', 'F_HIPM']]
+         '2016' :    ['Run2016'+er for er in ['F', 'G', 'H']],
+         '2016APV' : ['Run2016'+er for er in ['B_ver2_HIPM', 'C_HIPM', 'D_HIPM', 'E_HIPM', 'F_HIPM']]
          }
 
 MC_2bq   = ['TTToSemiLeptonic_powheg_bbqq',
@@ -130,8 +96,6 @@ MCNM = {'TTToSemiLeptonic_powheg_bbqq':'TT1L_bbqq',
         'TTToSemiLeptonic_powheg_0b'  :'TT1L_0b',
         'TTTo2L2Nu_powheg_0b'         :'TT2L_0b',
         'WJetsToLNu_HT_LO'            :'WToLNu',}
-
-
 
 
 ## Loop over bins in original histogram to find boundary bin
@@ -252,9 +216,9 @@ def main():
                 for year in YEARS:
                     in_file_str = IN_DIR.format(year=year)+cat+'.root'
                     in_file = R.TFile(in_file_str, 'open')
-                    print('\n*******\nReading from %s for Data' % in_file_str)
-                    print('\n*******\n')
-                    print(cat)
+                    #print('\n*******\nReading from %s for Data' % in_file_str)
+                    #print('\n*******\n')
+                    #print(cat)
                     ####################################
                     ## Get data histograms from each era
                     ERAS = YEARS[year]
@@ -292,7 +256,7 @@ def main():
                     for year in YEARS:
                         in_file_str = IN_DIR.format(year=year)+cat+'.root'
                         in_file = R.TFile(in_file_str, 'open')
-                        print('\n*******\nReading from %s for MC' % in_file_str)
+                        # print('\n*******\nReading from %s for MC' % in_file_str)
                         if VERBOSE: print('\nNow looking at MC sample %s' % mc)
                         h_in_name = 'evt/'+mc+'/'+tag+'_sel_'+sel+'_central'
                         h_in = in_file.Get(h_in_name)
@@ -311,6 +275,12 @@ def main():
                         #    sys.exit()
                         fill_pass_fail(h_in, h_outs[sel][h_out_name], TAGGERS[tag])
 
+                        if 'bbq' in mc:
+                            print(mc)
+                            print(year)
+                            print(h_in.Integral())
+                            print('----------------')
+
                     if mc in MC_2bq: systs = ['2bq','2B2Q']
                     if mc in MC_2b:  systs = ['2b', 'BB']
                     if mc in MC_bqq: systs = ['bqq','BQQ']
@@ -323,11 +293,6 @@ def main():
                             h_outs[sel][h_MC_name] = R.TH1D(h_MC_name, h_MC_name, nCuts+1, 0, nCuts+1)
                             h_outs[sel][h_MC_name].SetDirectory(0) ## Save locally
                         h_outs[sel][h_MC_name].Add(h_outs[sel][h_out_name])
-                        if "2B2Q" in h_MC_name:
-                            print(f'{h_in_name=} : {h_in.Integral()}')
-                            print(f'{h_out_name=} : {h_outs[sel][h_out_name].Integral()}')
-                            print(f'{h_MC_name=} : {h_outs[sel][h_MC_name].Integral()}')
-
 
                         ## Perform systematic variations
                         for h_syst in make_syst_hists(h_outs[sel][h_out_name], syst):
@@ -362,7 +327,7 @@ def main():
         tag_str = '%s'.join(TAGNM[tag] for tag in TAGGERS.keys())
         out_file_str = OUT_DIR+'AK8_tagger_calib_%s_0b_WP%s_%s_slc7.root' % (tag_str, args.WP, str(SVAR).replace('.','p'))
         out_file = R.TFile(out_file_str, 'recreate')
-        print('\n*******\nWriting to %s' % out_file_str)
+        # print('\n*******\nWriting to %s' % out_file_str)
         for h_out_name in h_outs[sel].keys():
             if VERBOSE: print('Writing out %s' % h_out_name)
             if VERBOSE: print('  * Integral = %.3f' % h_outs[sel][h_out_name].Integral())

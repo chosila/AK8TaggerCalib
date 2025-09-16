@@ -99,9 +99,11 @@ fns = {
     # 'fitDiagnosticsX34b_2016_WP60_postVFP.root' :  ['mu_zerob_bdtHi', 'mu_zerob_bdtMed', 'mu_zerob_bdtLo', 'mu_zerob_bdtVeto', 'mu_oneb','eg_zerob_bdtHi', 'eg_zerob_bdtMed', 'eg_zerob_bdtLo', 'eg_zerob_bdtVeto', 'eg_oneb'],
     # 'fitDiagnosticsX34b_2016_WP40_postVFP.root' :  ['mu_zerob_bdtHi', 'mu_zerob_bdtMed', 'mu_zerob_bdtLo', 'mu_zerob_bdtVeto', 'mu_oneb','eg_zerob_bdtHi', 'eg_zerob_bdtMed', 'eg_zerob_bdtLo', 'eg_zerob_bdtVeto', 'eg_oneb'],
 
-    'fitDiagnosticsX34b_runII_WP80.root' :  ['mu_zerob_bdtHi', 'mu_zerob_bdtMed', 'mu_zerob_bdtLo', 'mu_zerob_bdtVeto', 'mu_oneb','eg_zerob_bdtHi', 'eg_zerob_bdtMed', 'eg_zerob_bdtLo', 'eg_zerob_bdtVeto', 'eg_oneb'],
-    'fitDiagnosticsX34b_runII_WP60.root' :  ['mu_zerob_bdtHi', 'mu_zerob_bdtMed', 'mu_zerob_bdtLo', 'mu_zerob_bdtVeto', 'mu_oneb','eg_zerob_bdtHi', 'eg_zerob_bdtMed', 'eg_zerob_bdtLo', 'eg_zerob_bdtVeto', 'eg_oneb'],
-    'fitDiagnosticsX34b_runII_WP40.root' :  ['mu_zerob_bdtHi', 'mu_zerob_bdtMed', 'mu_zerob_bdtLo', 'mu_zerob_bdtVeto', 'mu_oneb','eg_zerob_bdtHi', 'eg_zerob_bdtMed', 'eg_zerob_bdtLo', 'eg_zerob_bdtVeto', 'eg_oneb'],
+    ## ------- full run II one root input ----------
+    'fitDiagnosticsX34b_runII_WP80_unmerged.root' :  ['y2016_postVFP_eg_oneb', 'y2016_postVFP_eg_zerob_bdtHi', 'y2016_postVFP_eg_zerob_bdtLo', 'y2016_postVFP_eg_zerob_bdtMed', 'y2016_postVFP_eg_zerob_bdtVeto', 'y2016_postVFP_mu_oneb', 'y2016_postVFP_mu_zerob_bdtHi', 'y2016_postVFP_mu_zerob_bdtLo', 'y2016_postVFP_mu_zerob_bdtMed', 'y2016_postVFP_mu_zerob_bdtVeto', 'y2016_preVFP_eg_oneb', 'y2016_preVFP_eg_zerob_bdtHi', 'y2016_preVFP_eg_zerob_bdtLo', 'y2016_preVFP_eg_zerob_bdtMed', 'y2016_preVFP_eg_zerob_bdtVeto', 'y2016_preVFP_mu_oneb', 'y2016_preVFP_mu_zerob_bdtHi', 'y2016_preVFP_mu_zerob_bdtLo', 'y2016_preVFP_mu_zerob_bdtMed', 'y2016_preVFP_mu_zerob_bdtVeto', 'y2017_eg_oneb', 'y2017_eg_zerob_bdtHi', 'y2017_eg_zerob_bdtLo', 'y2017_eg_zerob_bdtMed', 'y2017_eg_zerob_bdtVeto', 'y2017_mu_oneb', 'y2017_mu_zerob_bdtHi', 'y2017_mu_zerob_bdtLo', 'y2017_mu_zerob_bdtMed', 'y2017_mu_zerob_bdtVeto', 'y2018_eg_oneb', 'y2018_eg_zerob_bdtHi', 'y2018_eg_zerob_bdtLo', 'y2018_eg_zerob_bdtMed', 'y2018_eg_zerob_bdtVeto', 'y2018_mu_oneb', 'y2018_mu_zerob_bdtHi', 'y2018_mu_zerob_bdtLo', 'y2018_mu_zerob_bdtMed', 'y2018_mu_zerob_bdtVeto'],
+    'fitDiagnosticsX34b_runII_WP80_merged.root' :  ['mu_zerob_bdtHi', 'mu_zerob_bdtMed', 'mu_zerob_bdtLo', 'mu_zerob_bdtVeto', 'mu_oneb','eg_zerob_bdtHi', 'eg_zerob_bdtMed', 'eg_zerob_bdtLo', 'eg_zerob_bdtVeto', 'eg_oneb'],
+    #'fitDiagnosticsX34b_runII_WP60.root' :  ['mu_zerob_bdtHi', 'mu_zerob_bdtMed', 'mu_zerob_bdtLo', 'mu_zerob_bdtVeto', 'mu_oneb','eg_zerob_bdtHi', 'eg_zerob_bdtMed', 'eg_zerob_bdtLo', 'eg_zerob_bdtVeto', 'eg_oneb'],
+    #'fitDiagnosticsX34b_runII_WP40.root' :  ['mu_zerob_bdtHi', 'mu_zerob_bdtMed', 'mu_zerob_bdtLo', 'mu_zerob_bdtVeto', 'mu_oneb','eg_zerob_bdtHi', 'eg_zerob_bdtMed', 'eg_zerob_bdtLo', 'eg_zerob_bdtVeto', 'eg_oneb'],
 
 }
 

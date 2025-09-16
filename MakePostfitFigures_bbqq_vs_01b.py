@@ -78,11 +78,14 @@ fns = {
     #'fitDiagnosticsbbqq_vs_01b_2016_WP40.root' : ['preVFP_mu_zerob_bdtHi', 'preVFP_mu_zerob_bdtMed', 'preVFP_mu_zerob_bdtLo', 'preVFP_mu_zerob_bdtVeto', 'preVFP_mu_oneb','preVFP_eg_zerob_bdtHi', 'preVFP_eg_zerob_bdtMed', 'preVFP_eg_zerob_bdtLo', 'preVFP_eg_zerob_bdtVeto', 'preVFP_eg_oneb', 'postVFP_mu_zerob_bdtHi', 'postVFP_mu_zerob_bdtMed', 'postVFP_mu_zerob_bdtLo', 'postVFP_mu_zerob_bdtVeto', 'postVFP_mu_oneb','postVFP_eg_zerob_bdtHi', 'postVFP_eg_zerob_bdtMed', 'postVFP_eg_zerob_bdtLo', 'postVFP_eg_zerob_bdtVeto', 'postVFP_eg_oneb'],
     #'fitDiagnosticsbbqq_vs_01b_2016_WP60.root' : ['preVFP_mu_zerob_bdtHi', 'preVFP_mu_zerob_bdtMed', 'preVFP_mu_zerob_bdtLo', 'preVFP_mu_zerob_bdtVeto', 'preVFP_mu_oneb','preVFP_eg_zerob_bdtHi', 'preVFP_eg_zerob_bdtMed', 'preVFP_eg_zerob_bdtLo', 'preVFP_eg_zerob_bdtVeto', 'preVFP_eg_oneb', 'postVFP_mu_zerob_bdtHi', 'postVFP_mu_zerob_bdtMed', 'postVFP_mu_zerob_bdtLo', 'postVFP_mu_zerob_bdtVeto', 'postVFP_mu_oneb','postVFP_eg_zerob_bdtHi', 'postVFP_eg_zerob_bdtMed', 'postVFP_eg_zerob_bdtLo', 'postVFP_eg_zerob_bdtVeto', 'postVFP_eg_oneb'],
 
-    'fitDiagnosticsbbqq_vs_01b_2016_WP40_preVFP.root' : ['mu_zerob_bdtHi', 'mu_zerob_bdtMed', 'mu_zerob_bdtLo', 'mu_zerob_bdtVeto', 'mu_oneb','eg_zerob_bdtHi', 'eg_zerob_bdtMed', 'eg_zerob_bdtLo', 'eg_zerob_bdtVeto', 'eg_oneb'],
-    'fitDiagnosticsbbqq_vs_01b_2016_WP60_preVFP.root' : ['mu_zerob_bdtHi', 'mu_zerob_bdtMed', 'mu_zerob_bdtLo', 'mu_zerob_bdtVeto', 'mu_oneb','eg_zerob_bdtHi', 'eg_zerob_bdtMed', 'eg_zerob_bdtLo', 'eg_zerob_bdtVeto', 'eg_oneb'],
+    #'fitDiagnosticsbbqq_vs_01b_2016_WP40_preVFP.root' : ['mu_zerob_bdtHi', 'mu_zerob_bdtMed', 'mu_zerob_bdtLo', 'mu_zerob_bdtVeto', 'mu_oneb','eg_zerob_bdtHi', 'eg_zerob_bdtMed', 'eg_zerob_bdtLo', 'eg_zerob_bdtVeto', 'eg_oneb'],
+    #'fitDiagnosticsbbqq_vs_01b_2016_WP60_preVFP.root' : ['mu_zerob_bdtHi', 'mu_zerob_bdtMed', 'mu_zerob_bdtLo', 'mu_zerob_bdtVeto', 'mu_oneb','eg_zerob_bdtHi', 'eg_zerob_bdtMed', 'eg_zerob_bdtLo', 'eg_zerob_bdtVeto', 'eg_oneb'],
 
-    'fitDiagnosticsbbqq_vs_01b_2016_WP40_postVFP.root' : ['mu_zerob_bdtHi', 'mu_zerob_bdtMed', 'mu_zerob_bdtLo', 'mu_zerob_bdtVeto', 'mu_oneb','eg_zerob_bdtHi', 'eg_zerob_bdtMed', 'eg_zerob_bdtLo', 'eg_zerob_bdtVeto', 'eg_oneb'],
-    'fitDiagnosticsbbqq_vs_01b_2016_WP60_postVFP.root' : ['mu_zerob_bdtHi', 'mu_zerob_bdtMed', 'mu_zerob_bdtLo', 'mu_zerob_bdtVeto', 'mu_oneb','eg_zerob_bdtHi', 'eg_zerob_bdtMed', 'eg_zerob_bdtLo', 'eg_zerob_bdtVeto', 'eg_oneb'],
+    #'fitDiagnosticsbbqq_vs_01b_2016_WP40_postVFP.root' : ['mu_zerob_bdtHi', 'mu_zerob_bdtMed', 'mu_zerob_bdtLo', 'mu_zerob_bdtVeto', 'mu_oneb','eg_zerob_bdtHi', 'eg_zerob_bdtMed', 'eg_zerob_bdtLo', 'eg_zerob_bdtVeto', 'eg_oneb'],
+    #'fitDiagnosticsbbqq_vs_01b_2016_WP60_postVFP.root' : ['mu_zerob_bdtHi', 'mu_zerob_bdtMed', 'mu_zerob_bdtLo', 'mu_zerob_bdtVeto', 'mu_oneb','eg_zerob_bdtHi', 'eg_zerob_bdtMed', 'eg_zerob_bdtLo', 'eg_zerob_bdtVeto', 'eg_oneb'],
+
+    'fitDiagnosticsbbqq_vs_01b_2018_WP40.root' : ['mu_zerob_bdtHi', 'mu_zerob_bdtMed', 'mu_zerob_bdtLo', 'mu_zerob_bdtVeto', 'mu_oneb','eg_zerob_bdtHi', 'eg_zerob_bdtMed', 'eg_zerob_bdtLo', 'eg_zerob_bdtVeto', 'eg_oneb'],
+    'fitDiagnosticsbbqq_vs_01b_2018_WP60.root' : ['mu_zerob_bdtHi', 'mu_zerob_bdtMed', 'mu_zerob_bdtLo', 'mu_zerob_bdtVeto', 'mu_oneb','eg_zerob_bdtHi', 'eg_zerob_bdtMed', 'eg_zerob_bdtLo', 'eg_zerob_bdtVeto', 'eg_oneb'],
 
     ## the dictionary is in the form of
     # '<path to fitDiagnostics output.root' : ['combine channel1', 'channel 2', 'channel 3'...]

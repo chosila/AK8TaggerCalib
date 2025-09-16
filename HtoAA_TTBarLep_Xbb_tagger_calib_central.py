@@ -16,22 +16,23 @@ import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument('--dataset')
 parser.add_argument('--outdir')
+parser.add_argument('--year')
 
 args = parser.parse_args()
 dataset = args.dataset
 outdir = args.outdir.removesuffix('/')
-
+year = args.year
 
 R.gROOT.SetBatch(True)  ## Don't display histograms or canvases when drawn
 R.gStyle.SetOptStat(0)  ## Don't display stat boxes
 
 ## User configuration
 VERBOSE  = False
-if dataset == 'EGamma':
-    IN_FILE   = '/afs/cern.ch/work/c/csutanta/HTOAA_CMSSW/analysis/v1_202505_scalefactor/unskimmed_egamma_1b_BBQ_BBQQ/2017/analyze_htoaa_stage1.root' # '/afs/cern.ch/work/c/csutanta/public/unskimmed_histograms/v1_scalefactor/unskimmed_EGamma_'
-    OUT_DIR  = f'{outdir}/EGamma/'
+if dataset == 'SingleElectron':  # 'EGamma':
+    IN_FILE   = f'/afs/cern.ch/work/c/csutanta/HTOAA_CMSSW/analysis/v1_202505_scalefactor/unskimmed_egamma_1b_BBQ_BBQQ/{year}/analyze_htoaa_stage1.root'
+    OUT_DIR  = f'{outdir}/SingleElectron/'
 elif dataset == 'SingleMuon':
-    IN_FILE   = '<link to in file>' # '/afs/cern.ch/work/c/csutanta/public/unskimmed_histograms/v1_scalefactor/unskimmed_SingleMuon_'
+    IN_FILE   = f'/afs/cern.ch/work/c/csutanta/HTOAA_CMSSW/analysis/v1_202505_scalefactor/unskimmed_singlemuon_1b_BBQ_BBQQ/{year}/analyze_htoaa_stage1.root' # '/afs/cern.ch/work/c/csutanta/public/unskimmed_histograms/v1_scalefactor/unskimmed_SingleMuon_'
     OUT_DIR  = f'{outdir}/SingleMuon/'
 else:
     print('need to provide dataset! exiting.')
@@ -51,19 +52,27 @@ CATS     = ['0b_BBQQ_bdtVeto',
 # }
 
 
-
 TAGGERS   = {
     'particleNetMD_XbbOverQCD':[0.1,0.5,0.75]
 }
+
 TAGNM     = {
     'particleNetMD_XbbOverQCD':'Xbb'
 }
 SVAR  = 2.0  ## Systematic factor of variation in tagging efficiency
 
-YEAR     = '2018'
+YEAR     = args.year
 DATA     = dataset
 
-ERAS     = ['Run'+YEAR+er for er in ['A','B','C','D']]
+if YEAR == '2017' :
+    ERAS = ['Run2017'+er for er in ['B', 'C','D','E','F']]
+elif YEAR == '2016' :
+    ERAS =  ['Run2016'+er for er in ['F', 'G', 'H']]
+elif YEAR == '2016APV' :
+    ERAS = ['Run2016'+er for er in ['B_ver2_HIPM', 'C_HIPM', 'D_HIPM', 'E_HIPM', 'F_HIPM']]
+else:
+    print('--year not defined correctly' )
+
 
 MC_2bq   = ['TTToSemiLeptonic_powheg_bbqq',
             'TTToSemiLeptonic_powheg_bbq']
@@ -87,8 +96,6 @@ MCNM = {'TTToSemiLeptonic_powheg_bbqq':'TT1L_bbqq',
         'TTToSemiLeptonic_powheg_0b'  :'TT1L_0b',
         'TTTo2L2Nu_powheg_0b'         :'TT2L_0b',
         'WJetsToLNu_HT_LO'            :'WToLNu',}
-
-
 
 
 ## Loop over bins in original histogram to find boundary bin
@@ -188,164 +195,146 @@ def main():
 
     ## Initialize dictionary of output histograms
     h_outs = {}
+
     #for sel in SELS:
     #    h_outs[sel] = {}
-
 
     for cat in CATS:
         in_file_str = IN_FILE
         in_file = R.TFile(in_file_str, 'open')
+
+        ####################################
+        ## Get data histograms from each era
         print('\n*******\nReading from %s' % in_file_str)
         for tag in TAGGERS.keys():
-            h_in_name = 'evt/'+DATA+'_'+era+'/'+tag+'_sel_'+sel+'_noweight'
+            nCuts = len(TAGGERS[tag])
+            for era in ERAS:
+                # h_in_name = 'evt/'+DATA+'_'+year+'/'+tag+'_sel_'+sel+'_noweight'
+                h_in_name = 'evt/'+DATA+'_'+era+'/'+tag+'_sel_'+cat+'_noweight'
+                h_in = in_file.Get(h_in_name)
+
+                ## Fill new rebinned histogram with events in tagger ranges
+                if '0b' in cat:
+                    h_out_name = DATA+'_'+YEAR+cat.replace('0b_BBQQ', '')+'_'+TAGNM[tag]
+                else:
+                    h_out_name = DATA+'_'+YEAR+'_sideband_'+TAGNM[tag]
+                if not h_out_name in h_outs.keys():
+                    h_outs[h_out_name] = R.TH1D(h_out_name, h_out_name, nCuts+1, 0, nCuts+1)
+                    h_outs[h_out_name].SetDirectory(0) ## Save locally
+
+                fill_pass_fail(h_in, h_outs[h_out_name], TAGGERS[tag])
+
+
+        ####################
+        ## Get MC histograms
+        for mc in MC_2bq+MC_2b+MC_bqq+MC_1b+MC_0b:
+            if VERBOSE: print('\nNow looking at MC sample %s' % mc)
+            h_in_name = 'evt/'+mc+'/'+tag+'_sel_'+cat+'_central'
             h_in = in_file.Get(h_in_name)
-            ## Fill new rebinned histogram with events in tagger ranges
+            if VERBOSE: print('\nGot histogram %s' % h_in_name)
+            if VERBOSE: print('  * Integral = %.1f' % h_in.Integral())
+
+            ## Fill new rebinned histogram with events failing and passing cuts
+            mcm = MCNM[mc]
             if '0b' in cat:
-                h_out_name = DATA+'_'+YEAR+'_'+cat.replace('0b_BBQQ')+'_'+TAGNM[tag]
+                h_out_name = mcm+cat.replace('0b_BBQQ','')+'_'+TAGNM[tag]
             else:
-                h_out_name = DATA+'_'+YEAR+'_sideband_'+TAGNM[tag]
-            if not h_out_name in h_outs[sel].keys():
-                h_outs[sel][h_out_name] = R.TH1D(h_out_name, h_out_name, nCuts+1, 0, nCuts+1)
-                h_outs[sel][h_out_name].SetDirectory(0) ## Save locally
-            fill_pass_fail(h_in, h_outs[sel][h_out_name], TAGGERS[tag])
-            exit()
+                h_out_name = mcm+'_sideband_'+TAGNM[tag]
 
+            if not h_out_name in h_outs.keys():
+                h_outs[h_out_name] = R.TH1D(h_out_name, h_out_name, nCuts+1, 0, nCuts+1)
+                h_outs[h_out_name].SetDirectory(0) ## Save locally
+            else:
+                print('\n\nHow is %s already in h_outs[%s]??? Quitting.' % (h_out_name, sel))
+                sys.exit()
+            fill_pass_fail(h_in, h_outs[h_out_name], TAGGERS[tag])
 
+            if mc in MC_2bq: systs = ['2bq','2B']
+            if mc in MC_2b:  systs = ['2b', '2B']
+            if mc in MC_bqq: systs = ['bqq','1B']
+            if mc in MC_1b:  systs = ['1b', '1B']
+            if mc in MC_0b:  systs = ['0b']
+            for syst in systs:
+                ## Generate additional histograms with sum of MC
+                if '0b' in cat:
+                    h_MC_name = 'Sum'+syst+cat.replace('0b_BBQQ','')+'_'+TAGNM[tag]
+                else:
+                    h_MC_name = 'Sum'+syst+'_sideband_'+TAGNM[tag]
 
-    for cat in CATS:
-        if VERBOSE: print('\nNow looking at category %s' % cat)
-        in_file_str = IN_FILE #IN_DIR+cat+'.root'
-        in_file = R.TFile(in_file_str, 'open')
-        print('\n*******\nReading from %s' % in_file_str)
-        for sel in SELS:
-            if VERBOSE: print('\nNow looking at selection %s' % sel)
-            for tag in TAGGERS.keys():
-                nCuts = len(TAGGERS[tag])
-                if VERBOSE: print('\nNow looking at tagger %s, will rebin to %d bins' % (tag, nCuts+1))
+                if not h_MC_name in h_outs.keys():
+                    h_outs[h_MC_name] = R.TH1D(h_MC_name, h_MC_name, nCuts+1, 0, nCuts+1)
+                    h_outs[h_MC_name].SetDirectory(0) ## Save locally
+                h_outs[h_MC_name].Add(h_outs[h_out_name])
+                ## Perform systematic variations
+                # print(f'{h_outs[h_out_name].Print("all")=}')
+                for h_syst in make_syst_hists(h_outs[h_out_name], syst):
+                    h_outs[h_syst.GetName()] = h_syst
+                    h_outs[h_syst.GetName()].SetDirectory(0) ## Save locally
+                    ## Generate additional systematic histograms with sum of MC
+                    h_MC_name_syst = h_MC_name+(h_syst.GetName().replace(h_out_name,''))
+                    if not h_MC_name_syst in h_outs.keys():
+                        h_outs[h_MC_name_syst] = R.TH1D(h_MC_name_syst, h_MC_name_syst, nCuts+1, 0, nCuts+1)
+                        h_outs[h_MC_name_syst].SetDirectory(0) ## Save locally
+                    h_outs[h_MC_name_syst].Add(h_syst)
 
-                ####################################
-                ## Get data histograms from each era
-                for era in ERAS:
-                    if VERBOSE: print('\nNow looking at era %s' % era)
-                    h_in_name = 'evt/'+DATA+'_'+era+'/'+tag+'_sel_'+sel+'_noweight'
-                    h_in = in_file.Get(h_in_name)
-                    if VERBOSE: print('\nGot histogram %s' % h_in_name)
-                    if VERBOSE: print('  * Integral = %.1f' % h_in.Integral())
+                    ## clone the bin up and bin down and have _bkg instead of s{syst} in the name
+                    ## need for version of card that has different r_nuisance but same s_nuisance
+                    h_sum_bkg_name = h_MC_name_syst.replace('_s'+syst, '_sbkg')
+                    h_sum_bkg = h_outs[h_MC_name_syst].Clone(h_sum_bkg_name)
+                    h_outs[h_sum_bkg_name] = h_sum_bkg
+                    h_outs[h_sum_bkg_name].SetDirectory(0) ## Save locally. If don't do this, histogram will be None after open new file or close current file
 
-                    ## Fill new rebinned histogram with events in tagger ranges
-                    h_out_name = DATA+'_'+YEAR+'_'+cat+'_'+TAGNM[tag]
-                    if not h_out_name in h_outs[sel].keys():
-                        h_outs[sel][h_out_name] = R.TH1D(h_out_name, h_out_name, nCuts+1, 0, nCuts+1)
-                        h_outs[sel][h_out_name].SetDirectory(0) ## Save locally
-                    fill_pass_fail(h_in, h_outs[sel][h_out_name], TAGGERS[tag])
-                ## End loop: for era in ERAS
-
-                ####################
-                ## Get MC histograms
-                for mc in MC_2bq+MC_2b+MC_bqq+MC_1b+MC_0b:
-                    if VERBOSE: print('\nNow looking at MC sample %s' % mc)
-                    h_in_name = 'evt/'+mc+'/'+tag+'_sel_'+sel+'_central'
-                    h_in = in_file.Get(h_in_name)
-                    if VERBOSE: print('\nGot histogram %s' % h_in_name)
-                    if VERBOSE: print('  * Integral = %.1f' % h_in.Integral())
-
-                    ## Fill new rebinned histogram with events failing and passing cuts
-                    mcm = MCNM[mc]
-                    h_out_name = mcm+'_'+cat+'_'+TAGNM[tag]
-                    if not h_out_name in h_outs[sel].keys():
-                        h_outs[sel][h_out_name] = R.TH1D(h_out_name, h_out_name, nCuts+1, 0, nCuts+1)
-                        h_outs[sel][h_out_name].SetDirectory(0) ## Save locally
-                    else:
-                        print('\n\nHow is %s already in h_outs[%s]??? Quitting.' % (h_out_name, sel))
-                        sys.exit()
-                    fill_pass_fail(h_in, h_outs[sel][h_out_name], TAGGERS[tag])
-
-                    if mc in MC_2bq: systs = ['2bq','2B']
-                    if mc in MC_2b:  systs = ['2b', '2B']
-                    if mc in MC_bqq: systs = ['bqq','1B']
-                    if mc in MC_1b:  systs = ['1b', '1B']
-                    if mc in MC_0b:  systs = ['0b']
-                    for syst in systs:
-                        ## Generate additional histograms with sum of MC
-                        h_MC_name = 'Sum'+syst+'_'+cat+'_'+TAGNM[tag]
-                        if not h_MC_name in h_outs[sel].keys():
-                            h_outs[sel][h_MC_name] = R.TH1D(h_MC_name, h_MC_name, nCuts+1, 0, nCuts+1)
-                            h_outs[sel][h_MC_name].SetDirectory(0) ## Save locally
-                        h_outs[sel][h_MC_name].Add(h_outs[sel][h_out_name])
-
-                        ## Perform systematic variations
-                        for h_syst in make_syst_hists(h_outs[sel][h_out_name], syst):
-                            h_outs[sel][h_syst.GetName()] = h_syst
-                            h_outs[sel][h_syst.GetName()].SetDirectory(0) ## Save locally
-                            ## Generate additional systematic histograms with sum of MC
-                            h_MC_name_syst = h_MC_name+(h_syst.GetName().replace(h_out_name,''))
-                            if not h_MC_name_syst in h_outs[sel].keys():
-                                h_outs[sel][h_MC_name_syst] = R.TH1D(h_MC_name_syst, h_MC_name_syst, nCuts+1, 0, nCuts+1)
-                                h_outs[sel][h_MC_name_syst].SetDirectory(0) ## Save locally
-                            h_outs[sel][h_MC_name_syst].Add(h_syst)
-
-                            ## clone the bin up and bin down and have _bkg instead of s{syst} in the name
-                            ## need for version of card that has different r_nuisance but same s_nuisance
-                            h_sum_bkg_name = h_MC_name_syst.replace('_s'+syst, '_sbkg')
-                            h_sum_bkg = h_outs[sel][h_MC_name_syst].Clone(h_sum_bkg_name)
-                            h_outs[sel][h_sum_bkg_name] = h_sum_bkg
-                            h_outs[sel][h_sum_bkg_name].SetDirectory(0) ## Save locally. If don't do this, histogram will be None after open new file or close current file
-
-                        ## End loop: for h_syst in make_syst_hists(h_outs[sel][h_out_name], syst)
-                    ## End loop: for syst in systs
-                ## End loop: for mc in MC_2bq+MC_2b+MC_bqq+MC_1b+MC_0b
-
-            ## End loop: for tag in TAGGERS.keys()
-        ## End loop: for sel in SELS
-        in_file.Close()
-    ## End loop: for cat in CATS
+                ## End loop: for h_syst in make_syst_hists(h_outs[h_out_name], syst)
+            ## End loop: for syst in systs
+        ## End loop: for mc in MC_2bq+MC_2b+MC_bqq+MC_1b+MC_0b
 
 
     ## Create a separate output ROOT file for each selection option
-    for sel in SELS:
-        tag_str = '%s'.join(TAGNM[tag] for tag in TAGGERS.keys())
-        out_file_str = OUT_DIR+'AK8_tagger_calib_%s_%s_%s_slc7.root' % (tag_str, sel, str(SVAR).replace('.','p'))
-        out_file = R.TFile(out_file_str, 'recreate')
-        print('\n*******\nWriting to %s' % out_file_str)
-        for h_out_name in h_outs[sel].keys():
-            if VERBOSE: print('Writing out %s' % h_out_name)
-            if VERBOSE: print('  * Integral = %.3f' % h_outs[sel][h_out_name].Integral())
-            if VERBOSE: print('  * Bins = '+', '.join('%.3f' % h_outs[sel][h_out_name].GetBinContent(iX)
-                                                      for iX in range(1, h_outs[sel][h_out_name].GetNbinsX()+1)))
-            if not (h_out_name.endswith('Up') or h_out_name.endswith('Down')):
-                h_outs[sel][h_out_name].SetLineWidth(2)
-            if DATA in h_out_name:
-                h_outs[sel][h_out_name].SetLineWidth(3)
-                h_outs[sel][h_out_name].SetLineColor(R.kBlack)
-            elif '_bbq' in h_out_name or '2bq' in h_out_name or '2B' in h_out_name:
-                h_outs[sel][h_out_name].SetLineColor(R.kRed)
-            elif '_bb' in h_out_name or '2b' in h_out_name:
-                h_outs[sel][h_out_name].SetLineColor(R.kOrange+8)
-            elif '_bqq' in h_out_name:
-                h_outs[sel][h_out_name].SetLineColor(R.kGreen+1)
-            elif '1b' in h_out_name or '1B' in h_out_name:
-                h_outs[sel][h_out_name].SetLineColor(R.kBlue)
-            else:
-                h_outs[sel][h_out_name].SetLineColor(R.kViolet)
-            h_outs[sel][h_out_name].Write()
 
-            # ## Add "extended" histograms failing selection cut
-            # if sel == 'sel_JetID': continue
-            # if 'bdtHi' in h_out_name: continue
-            # ## Pick looser selection criteria and clone histogram
-            # selX = ('sel_JetID' if sel == 'sel_Mass140' else 'sel_Mass140')
-            # h_name_X = h_out_name.replace('bdtLo','ext')
-            # h_out_X  = h_outs[selX][h_out_name].Clone(h_name_X)
-            # ## Add in bdtHi histogram
-            # h_out_X.Add(h_outs[sel][h_out_name.replace('bdtLo','bdtHi')])
-            # ## Subtract tighter selection from looser selection
-            # h_out_X.Add(h_outs[sel][h_out_name], -1)
-            # h_out_X.Add(h_outs[sel][h_out_name.replace('bdtLo','bdtHi')], -1)
-            # h_out_X.SetTitle(h_name_X)
-            # h_out_X.Write()
+    tag_str = '%s'.join(TAGNM[tag] for tag in TAGGERS.keys())
+    out_file_str = OUT_DIR+'AK8_tagger_calib_%s_%s_slc7.root' % (tag_str, str(SVAR).replace('.','p'))
+    out_file = R.TFile(out_file_str, 'recreate')
+    print('\n*******\nWriting to %s' % out_file_str)
+    for h_out_name in h_outs.keys():
 
-        ## End loop: for h_out_name in h_outs[sel].keys()
-    ## End loop: for sel in SELS:
+        if VERBOSE: print('Writing out %s' % h_out_name)
+        if VERBOSE: print('  * Integral = %.3f' % h_outs[h_out_name].Integral())
+        if VERBOSE: print('  * Bins = '+', '.join('%.3f' % h_outs[h_out_name].GetBinContent(iX)
+                                                  for iX in range(1, h_outs[h_out_name].GetNbinsX()+1)))
+        if not (h_out_name.endswith('Up') or h_out_name.endswith('Down')):
+            h_outs[h_out_name].SetLineWidth(2)
+        if DATA in h_out_name:
+            h_outs[h_out_name].SetLineWidth(3)
+            h_outs[h_out_name].SetLineColor(R.kBlack)
+        elif '_bbq' in h_out_name or '2bq' in h_out_name or '2B' in h_out_name:
+            h_outs[h_out_name].SetLineColor(R.kRed)
+        elif '_bb' in h_out_name or '2b' in h_out_name:
+            h_outs[h_out_name].SetLineColor(R.kOrange+8)
+        elif '_bqq' in h_out_name:
+            h_outs[h_out_name].SetLineColor(R.kGreen+1)
+        elif '1b' in h_out_name or '1B' in h_out_name:
+            h_outs[h_out_name].SetLineColor(R.kBlue)
+        else:
+            h_outs[h_out_name].SetLineColor(R.kViolet)
+        h_outs[h_out_name].Write()
+
+        # ## Add "extended" histograms failing selection cut
+        # if sel == 'sel_JetID': continue
+        # if 'bdtHi' in h_out_name: continue
+        # ## Pick looser selection criteria and clone histogram
+        # selX = ('sel_JetID' if sel == 'sel_Mass140' else 'sel_Mass140')
+        # h_name_X = h_out_name.replace('bdtLo','ext')
+        # h_out_X  = h_outs[selX][h_out_name].Clone(h_name_X)
+        # ## Add in bdtHi histogram
+        # h_out_X.Add(h_outs[sel][h_out_name.replace('bdtLo','bdtHi')])
+        # ## Subtract tighter selection from looser selection
+        # h_out_X.Add(h_outs[sel][h_out_name], -1)
+        # h_out_X.Add(h_outs[sel][h_out_name.replace('bdtLo','bdtHi')], -1)
+        # h_out_X.SetTitle(h_name_X)
+        # h_out_X.Write()
+
+    ## End loop: for h_out_name in h_outs[sel].keys()
+
 
     print('\n\nAll done!')
 

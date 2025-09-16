@@ -16,6 +16,7 @@ from array import array
 import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument('--wp', help='40 or 60')
+parser.add_argument('--nbins', help = '3 or 4')
 args = parser.parse_args()
 
 
@@ -29,17 +30,29 @@ IN_DIR = '/eos/cms/store/user/ssawant/htoaa/analysis/20250731_DatacardsFullSyst/
 # IN_DIR   = '/eos/cms/store/user/ssawant/htoaa/analysis/20250317_CR_QCD4b_FullSyst/2018/CombineFit_inputFiles/'
 CATS     = ['3M2T','3M3T','4M3T','4M4T']
 if args.wp == '60':
-    TAGGERS  = {'X4b_v2ab_Haa4b_score':[0.40,0.66,0.93]}  ## For WP60
+    if args.nbins == '3':
+        TAGGERS  = {'X4b_v2ab_Haa4b_score':[0.40,0.66]}
+    elif args.nbins == '4':
+        TAGGERS  = {'X4b_v2ab_Haa4b_score':[0.40,0.66,0.93]}  ## For WP60
+    else:
+        print('wrong nbins')
+        exit()
 elif args.wp == '40':
-    TAGGERS  = {'X4b_v2ab_Haa4b_score':[0.40,0.84,0.96]}  ## For WP40
+    if args.nbins == '3':
+        TAGGERS  = {'X4b_v2ab_Haa4b_score':[0.40,0.84]}
+    elif args.nbins == '4':
+        TAGGERS  = {'X4b_v2ab_Haa4b_score':[0.40,0.84,0.96]}  ## For WP40
+    else:
+        print('wrong nbins')
+        exit()
 else :
     print('wrong working point given. exiting')
     exit()
 
 TAGNM    = {'X4b_v2ab_Haa4b_score':'X4b_v2'}
 # WP = 'WPX'
-if TAGGERS['X4b_v2ab_Haa4b_score'][2] == 0.96: WP = 'WP40'
-if TAGGERS['X4b_v2ab_Haa4b_score'][2] == 0.93: WP = 'WP60'
+# if TAGGERS['X4b_v2ab_Haa4b_score'][2] == 0.96: WP = 'WP40'
+# if TAGGERS['X4b_v2ab_Haa4b_score'][2] == 0.93: WP = 'WP60'
 
 SVAR  = 2.0  ## Systematic factor of variation in tagging efficiency
 
@@ -354,7 +367,7 @@ def main():
 
     ## Create an output ROOT file
     tag_str = '%s'.join(TAGNM[tag] for tag in TAGGERS.keys())
-    out_file_str = OUT_DIR+'AK8_tagger_calib_%s_%s_%s_slc7.root' % (tag_str, WP, str(SVAR).replace('.','p'))
+    out_file_str = OUT_DIR+'AK8_tagger_calib_%s_WP%s_%s_%sbins_slc7.root' % (tag_str, args.wp, str(SVAR).replace('.','p'), args.nbins)
     out_file = R.TFile(out_file_str, 'recreate')
     print('\n*******\nWriting to %s' % out_file_str)
     for h_out_name in h_outs.keys():

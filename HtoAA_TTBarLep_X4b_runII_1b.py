@@ -272,8 +272,6 @@ def main():
                 in_file.Close()
 
 
-
-
                 ####################
                 ## Get MC histograms
                 ####################
@@ -300,6 +298,8 @@ def main():
                         #    print('\n\nHow is %s already in h_outs[%s]??? Quitting.' % (h_out_name, sel))
                         #    sys.exit()
                         fill_pass_fail(h_in, h_outs[sel][h_out_name], TAGGERS[tag])
+                        in_file.Close()
+                    ## end for year in YEARS
 
                     if mc in MC_2bq: systs = ['2bq','2B2Q']
                     if mc in MC_2b:  systs = ['2b', 'BB', ]
@@ -336,7 +336,6 @@ def main():
                         ## End loop: for h_syst in make_syst_hists(h_outs[sel][h_out_name], syst)
                     ## End loop: for syst in systs
                 ## End loop: for mc in MC_2bq+MC_2b+MC_bqq+MC_1b+MC_0b
-
             ## End loop: for tag in TAGGERS.keys()
         ## End loop: for sel in SELS
         #in_file.Close()
@@ -354,6 +353,7 @@ def main():
             if VERBOSE: print('  * Integral = %.3f' % h_outs[sel][h_out_name].Integral())
             if VERBOSE: print('  * Bins = '+', '.join('%.3f' % h_outs[sel][h_out_name].GetBinContent(iX)
                                                       for iX in range(1, h_outs[sel][h_out_name].GetNbinsX()+1)))
+
             if not (h_out_name.endswith('Up') or h_out_name.endswith('Down')):
                 h_outs[sel][h_out_name].SetLineWidth(2)
             if DATA in h_out_name:

@@ -22,7 +22,8 @@ combine -M FitDiagnostics cards/v2_scalefactor/2017/bbqq_vs_01b/splitbkg_BB_BQQ_
 
 combine -M FitDiagnostics cards/v2_scalefactor/2017/bbqq_vs_01b/splitbkg_BB_BQQ_01B/mu+eg_0b+1b_WP40.txt --setParameterRanges s2B2Q_4bin=-1,1 --setParameters s2B2Q_4bin=0  --redefineSignalPOIs s2B2Q_4bin --preFitValue 0   --robustFit 1 --stepSize 0.01 --setRobustFitTolerance 0.02 --profilingMode all --saveShapes --saveWithUncertainties --cminDefaultMinimizerStrategy 0 -n bbqq_vs_01b_2017_WP40
 
-
+source runimpact.sh cards/v2_scalefactor/2017/bbqq_vs_01b/splitbkg_BB_BQQ_01B/mu+eg_0b+1b_WP40.txt bbqq_vs_01b_2017_WP40
+source runimpact.sh cards/v2_scalefactor/2017/bbqq_vs_01b/splitbkg_BB_BQQ_01B/mu+eg_0b+1b_WP60.txt bbqq_vs_01b_2017_WP60
 
 
 ## X34b

@@ -44,7 +44,7 @@ CATS     = ['bdtVeto',
             'bdtHi']
 SELS     = ['0b_BBQQ']
 TAGGERS   = {
-    'particleNetMD_XbbOverQCD':[0.1,0.5,0.75]
+    'particleNetMD_XbbOverQCD':[0.75] # [0.1,0.5,0.75]
 }
 TAGNM     = {
     'particleNetMD_XbbOverQCD':'Xbb'

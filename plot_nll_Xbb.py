@@ -23,8 +23,8 @@ s2b = np.array(g['s2B_4bin'])
 nll = np.array(g['deltaNLL'])
 fig, ax = plt.subplots(figsize=(9,6.5))
 ax.plot(s2b, nll, '.')
-ax.set_ylabel('-deltaNLL', loc='top', fontsize=16)
 ax.set_xlabel('s2B_4bin', loc='right', fontsize=16)
+ax.set_ylabel('-deltaNLL', loc='top', fontsize=16)
 
 ax.set_title(f'{args.pltname}', loc='right', fontsize=18)
 
@@ -42,7 +42,8 @@ print('y minpoint', np.min(nll))
 ax.axhline(y=0.5, color='r')
 ax.vlines(x=low05,  ymin=-0.5, ymax=0.5, color='r')
 ax.vlines(x=high05, ymin=-0.5, ymax=0.5, color='r')
-ax.set_ylim(-0.06, 1.1)
+ax.set_ylim(-0.06, 0.7)
+
 
 txtstr = '\n'.join((
     r'µ = %.2f' % (minpoint),
@@ -53,5 +54,6 @@ props = dict(boxstyle='round', facecolor='white')
 ax.text(0.05, 0.95, txtstr, transform=ax.transAxes, fontsize=20,
         verticalalignment='top', bbox=props)
 
-
+#ax.set_xlim([-2,2])
 fig.savefig(f'{args.pltname}_deltanll.png')
+print(f'saved to {args.pltname}_deltanll.png')

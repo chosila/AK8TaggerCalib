@@ -2,46 +2,70 @@ cmsenv
 conda activate ana_SS
 ## ---------------------------- X34b TTBar -----------------------------------------------
 
-#  python3 HtoAA_TTBarLep_X4b_runII.py --dataset SingleElectron --outdir data/v2_scalefactor/runII/ --WP 80
-#  python3 HtoAA_TTBarLep_X4b_runII.py --dataset SingleElectron --outdir data/v2_scalefactor/runII/ --WP 60
-#  python3 HtoAA_TTBarLep_X4b_runII.py --dataset SingleElectron --outdir data/v2_scalefactor/runII/ --WP 40
-#  python3 HtoAA_TTBarLep_X4b_runII.py --dataset SingleMuon --outdir data/v2_scalefactor/runII/ --WP 40
-#  python3 HtoAA_TTBarLep_X4b_runII.py --dataset SingleMuon --outdir data/v2_scalefactor/runII/ --WP 60
-#  python3 HtoAA_TTBarLep_X4b_runII.py --dataset SingleMuon --outdir data/v2_scalefactor/runII/ --WP 80
-#  python3 HtoAA_TTBarLep_X4b_runII_1b.py --dataset SingleMuon --outdir data/v2_scalefactor/runII/ --WP 80
-#  python3 HtoAA_TTBarLep_X4b_runII_1b.py --dataset SingleMuon --outdir data/v2_scalefactor/runII/ --WP 60
-#  python3 HtoAA_TTBarLep_X4b_runII_1b.py --dataset SingleMuon --outdir data/v2_scalefactor/runII/ --WP 40
-#  python3 HtoAA_TTBarLep_X4b_runII_1b.py --dataset SingleElectron --outdir data/v2_scalefactor/runII/ --WP 40
-#  python3 HtoAA_TTBarLep_X4b_runII_1b.py --dataset SingleElectron --outdir data/v2_scalefactor/runII/ --WP 60
-#  python3 HtoAA_TTBarLep_X4b_runII_1b.py --dataset SingleElectron --outdir data/v2_scalefactor/runII/ --WP 80
+#  python3 HtoAA_TTBarLep_X4b_runII.py --dataset SingleElectron --outdir data/v2_scalefactor/runII/X34b/ --WP 80
+#  python3 HtoAA_TTBarLep_X4b_runII.py --dataset SingleElectron --outdir data/v2_scalefactor/runII/X34b/ --WP 60
+#  python3 HtoAA_TTBarLep_X4b_runII.py --dataset SingleElectron --outdir data/v2_scalefactor/runII/X34b/ --WP 40
+#  python3 HtoAA_TTBarLep_X4b_runII.py --dataset SingleMuon --outdir data/v2_scalefactor/runII/X34b/ --WP 40
+#  python3 HtoAA_TTBarLep_X4b_runII.py --dataset SingleMuon --outdir data/v2_scalefactor/runII/X34b/ --WP 60
+#  python3 HtoAA_TTBarLep_X4b_runII.py --dataset SingleMuon --outdir data/v2_scalefactor/runII/X34b/ --WP 80
+#  python3 HtoAA_TTBarLep_X4b_runII_1b.py --dataset SingleMuon --outdir data/v2_scalefactor/runII/X34b/ --WP 80
+#  python3 HtoAA_TTBarLep_X4b_runII_1b.py --dataset SingleMuon --outdir data/v2_scalefactor/runII/X34b/ --WP 60
+#  python3 HtoAA_TTBarLep_X4b_runII_1b.py --dataset SingleMuon --outdir data/v2_scalefactor/runII/X34b/ --WP 40
+#  python3 HtoAA_TTBarLep_X4b_runII_1b.py --dataset SingleElectron --outdir data/v2_scalefactor/runII/X34b/ --WP 40
+#  python3 HtoAA_TTBarLep_X4b_runII_1b.py --dataset SingleElectron --outdir data/v2_scalefactor/runII/X34b/ --WP 60
+#  python3 HtoAA_TTBarLep_X4b_runII_1b.py --dataset SingleElectron --outdir data/v2_scalefactor/runII/X34b/ --WP 80
 
 # combine -M MultiDimFit cards/v2_scalefactor/X34b_TTbar_mu+eg_0b+1b_WP40_onerootinput.txt --setParameterRanges s2B2Q_4bin=-4,1 --setParameters s2B2Q_4bin=0  --algo grid --parameters s2B2Q_4bin  --points 1001 --floatOtherPOIs yes --redefineSignalPOIs s2B2Q_4bin --preFitValue 0 -n X34b_runII_WP40
 # combine -M MultiDimFit cards/v2_scalefactor/X34b_TTbar_mu+eg_0b+1b_WP60_onerootinput.txt --setParameterRanges s2B2Q_4bin=-4,1.5 --setParameters s2B2Q_4bin=0  --algo grid --parameters s2B2Q_4bin  --points 1001 --floatOtherPOIs yes --redefineSignalPOIs s2B2Q_4bin --preFitValue 0 -n X34b_runII_WP60
-# combine -M MultiDimFit cards/v2_scalefactor/X34b_TTbar_mu+eg_0b+1b_WP80_onerootinput.txt --setParameterRanges s2B2Q_4bin=-0.7,4 --setParameters s2B2Q_4bin=0  --algo grid --parameters s2B2Q_4bin  --points 1001 --floatOtherPOIs yes --redefineSignalPOIs s2B2Q_4bin --preFitValue 0 -n X34b_runII_WP80
+# combine -M MultiDimFit cards/v2_scalefactor/X34b_TTbar_mu+eg_0b+1b_WP80_onerootinput.txt --setParameterRanges s2B2Q_4bin=-0.5,2 --setParameters s2B2Q_4bin=0  --algo grid --parameters s2B2Q_4bin  --points 1001 --floatOtherPOIs yes --redefineSignalPOIs s2B2Q_4bin --preFitValue 0 -n X34b_runII_WP80
 
 # python plot_nll_X34b_TTbar.py higgsCombineX34b_runII_WP80.MultiDimFit.mH120.root X34b_runII_WP80
 # python plot_nll_X34b_TTbar.py higgsCombineX34b_runII_WP60.MultiDimFit.mH120.root X34b_runII_WP60
 # python plot_nll_X34b_TTbar.py higgsCombineX34b_runII_WP40.MultiDimFit.mH120.root X34b_runII_WP40
 
+#source runimpact.sh cards/v2_scalefactor/X34b_TTbar_mu+eg_0b+1b_WP80_onerootinput.txt X34b_runII_WP80
+
 
 # combine -M FitDiagnostics  cards/v2_scalefactor/X34b_TTbar_mu+eg_0b+1b_WP40_onerootinput.txt --setParameterRanges s2B2Q_4bin=-4,1 --setParameters s2B2Q_4bin=0  --redefineSignalPOIs s2B2Q_4bin --preFitValue 0   --robustFit 1 --stepSize 0.01 --setRobustFitTolerance 0.02 --profilingMode all --saveShapes --saveWithUncertainties --cminDefaultMinimizerStrategy 0 -n X34b_runII_WP40
 # combine -M FitDiagnostics  cards/v2_scalefactor/X34b_TTbar_mu+eg_0b+1b_WP60_onerootinput.txt --setParameterRanges s2B2Q_4bin=-4,1.5 --setParameters s2B2Q_4bin=0  --redefineSignalPOIs s2B2Q_4bin --preFitValue 0   --robustFit 1 --stepSize 0.01 --setRobustFitTolerance 0.02 --profilingMode all --saveShapes --saveWithUncertainties --cminDefaultMinimizerStrategy 0 -n X34b_runII_WP60
-# combine -M FitDiagnostics  cards/v2_scalefactor/X34b_TTbar_mu+eg_0b+1b_WP80_onerootinput.txt --setParameterRanges s2B2Q_4bin=-0.7,4 --setParameters s2B2Q_4bin=0  --redefineSignalPOIs s2B2Q_4bin --preFitValue 0   --robustFit 1 --stepSize 0.01 --setRobustFitTolerance 0.02 --profilingMode all --saveShapes --saveWithUncertainties --cminDefaultMinimizerStrategy 0 -n X34b_runII_WP80
+# combine -M FitDiagnostics  cards/v2_scalefactor/X34b_TTbar_mu+eg_0b+1b_WP80_onerootinput.txt --setParameterRanges s2B2Q_4bin=-0.5,2 --setParameters s2B2Q_4bin=0  --redefineSignalPOIs s2B2Q_4bin --preFitValue 0   --robustFit 1 --stepSize 0.01 --setRobustFitTolerance 0.02 --profilingMode all --saveShapes --saveWithUncertainties --cminDefaultMinimizerStrategy 0 -n X34b_runII_WP80
 
 
-## ------------------------------- X4b QCD ----------------------------------------
+## ------------------------------- X4b QCD 4bin ----------------------------------------
+# python3 HtoAA_QCD_AK8_tagger_calib_runII.py --wp 40 --nbins 4
+# python3 HtoAA_QCD_AK8_tagger_calib_runII.py --wp 60 --nbins 4
 
-combine -M MultiDimFit cards/v2_scalefactor/X4b_WP40_runII.txt --setParameterRanges s4B_4bin=-0.5,1 --setParameters s4B_4bin=0  --algo grid --parameters s4B_4bin  --points 1001 --floatOtherPOIs yes --redefineSignalPOIs s4B_4bin --preFitValue 0 -n X4b_runII_WP40
-combine -M MultiDimFit cards/v2_scalefactor/X4b_WP60_runII.txt --setParameterRanges s4B_4bin=0,1.5 --setParameters s4B_4bin=0  --algo grid --parameters s4B_4bin  --points 1001 --floatOtherPOIs yes --redefineSignalPOIs s4B_4bin --preFitValue 0 -n X4b_runII_WP60
+# combine -M MultiDimFit cards/v2_scalefactor/runII/X4b_WP40_runII_4bins.txt --setParameterRanges s4B_4bin=0,1 --setParameters s4B_4bin=0  --algo grid --parameters s4B_4bin  --points 1001 --floatOtherPOIs yes --redefineSignalPOIs s4B_4bin --preFitValue 0 -n X4b_runII_WP40_4bins
+# combine -M MultiDimFit cards/v2_scalefactor/runII/X4b_WP60_runII_4bins.txt --setParameterRanges s4B_4bin=0.25,1.5 --setParameters s4B_4bin=0  --algo grid --parameters s4B_4bin  --points 1001 --floatOtherPOIs yes --redefineSignalPOIs s4B_4bin --preFitValue 0 -n X4b_runII_WP60_4bins
+#
+# python plot_nll_X4b_QCD.py higgsCombineX4b_runII_WP40_4bins.MultiDimFit.mH120.root X4b_runII_WP40_4bins
+# python plot_nll_X4b_QCD.py higgsCombineX4b_runII_WP60_4bins.MultiDimFit.mH120.root X4b_runII_WP60_4bins
+#
+#
+# source runimpact_X4b.sh cards/v2_scalefactor/runII/X4b_WP40_runII_4bins.txt X4b_runII_WP40_4bins
+# source runimpact_X4b.sh cards/v2_scalefactor/runII/X4b_WP60_runII_4bins.txt X4b_runII_WP60_4bins
+#
+# combine -M FitDiagnostics  cards/v2_scalefactor/runII/X4b_WP40_runII_4bins.txt  --setParameterRanges s4B_4bin=0,1 --setParameters s4B_4bin=0  --redefineSignalPOIs s4B_4bin --preFitValue 0   --robustFit 1 --stepSize 0.01 --setRobustFitTolerance 0.02 --profilingMode all --saveShapes --saveWithUncertainties --cminDefaultMinimizerStrategy 0 --robustHesse 1 -n X4b_runII_WP40_4bins
+# combine -M FitDiagnostics  cards/v2_scalefactor/runII/X4b_WP60_runII_4bins.txt --setParameterRanges s4B_4bin=0.25,1.5 --setParameters s4B_4bin=0  --redefineSignalPOIs s4B_4bin --preFitValue 0   --robustFit 1 --stepSize 0.01 --setRobustFitTolerance 0.02 --profilingMode all --saveShapes --saveWithUncertainties --cminDefaultMinimizerStrategy 0 --robustHesse 1 -n X4b_runII_WP60_4bins
 
-python plot_nll_X4b_QCD.py higgsCombineX4b_runII_WP40.MultiDimFit.mH120.root X4b_runII_WP40
-python plot_nll_X4b_QCD.py higgsCombineX4b_runII_WP60.MultiDimFit.mH120.root X4b_runII_WP60
 
 
-source runimpact_X4b.sh cards/v2_scalefactor/X4b_WP40_runII.txt X4b_runII_WP40
-source runimpact_X4b.sh cards/v2_scalefactor/X4b_WP60_runII.txt X4b_runII_WP60
+## ------------------------------------ X4b QCD 3bin ----------------------------------
+# python3 HtoAA_QCD_AK8_tagger_calib_runII.py --wp 40 --nbins 3
+# python3 HtoAA_QCD_AK8_tagger_calib_runII.py --wp 60 --nbins 3
 
-combine -M FitDiagnostics  cards/v2_scalefactor/X4b_WP40_runII.txt --setParameterRanges s4B_4bin=-.5,1 --setParameters s4B_4bin=0  --redefineSignalPOIs s4B_4bin --preFitValue 0   --robustFit 1 --stepSize 0.01 --setRobustFitTolerance 0.02 --profilingMode all --saveShapes --saveWithUncertainties --cminDefaultMinimizerStrategy 0 -n X4b_runII_WP40
-combine -M FitDiagnostics  cards/v2_scalefactor/X4b_WP60_runII.txt --setParameterRanges s4B_4bin=0,1.5 --setParameters s4B_4bin=0  --redefineSignalPOIs s4B_4bin --preFitValue 0   --robustFit 1 --stepSize 0.01 --setRobustFitTolerance 0.02 --profilingMode all --saveShapes --saveWithUncertainties --cminDefaultMinimizerStrategy 0 -n X4b_runII_WP60
+combine -M MultiDimFit cards/v2_scalefactor/runII/X4b_WP40_runII_3bins.txt --setParameterRanges s4B_3bin=0.5,3 --setParameters s4B_3bin=0  --algo grid --parameters s4B_3bin  --points 1001 --floatOtherPOIs yes --redefineSignalPOIs s4B_3bin --preFitValue 0 -n X4b_runII_WP40_3bins
+combine -M MultiDimFit cards/v2_scalefactor/runII/X4b_WP60_runII_3bins.txt --setParameterRanges s4B_3bin=0.6,3 --setParameters s4B_3bin=0  --algo grid --parameters s4B_3bin  --points 1001 --floatOtherPOIs yes --redefineSignalPOIs s4B_3bin --preFitValue 0 -n X4b_runII_WP60_3bins
+
+python plot_nll_X4b_QCD.py higgsCombineX4b_runII_WP40_3bins.MultiDimFit.mH120.root X4b_runII_WP40_3bins
+python plot_nll_X4b_QCD.py higgsCombineX4b_runII_WP60_3bins.MultiDimFit.mH120.root X4b_runII_WP60_3bins
+
+
+#source runimpact_X4b_3bin.sh cards/v2_scalefactor/runII/X4b_WP40_runII_3bins.txt X4b_runII_WP40_3bins
+#source runimpact_X4b_3bin.sh cards/v2_scalefactor/runII/X4b_WP60_runII_3bins.txt X4b_runII_WP60_3bins
+
+combine -M FitDiagnostics  cards/v2_scalefactor/runII/X4b_WP40_runII_3bins.txt  --setParameterRanges s4B_3bin=0.5,3 --setParameters s4B_3bin=0  --redefineSignalPOIs s4B_3bin --preFitValue 0   --robustFit 1 --stepSize 0.01 --setRobustFitTolerance 0.02 --profilingMode all --saveShapes --saveWithUncertainties --cminDefaultMinimizerStrategy 0 --robustHesse 1 -n X4b_runII_WP40_3bins
+combine -M FitDiagnostics  cards/v2_scalefactor/runII/X4b_WP60_runII_3bins.txt --setParameterRanges s4B_3bin=0.5,3 --setParameters s4B_3bin=0  --redefineSignalPOIs s4B_3bin --preFitValue 0   --robustFit 1 --stepSize 0.01 --setRobustFitTolerance 0.02 --profilingMode all --saveShapes --saveWithUncertainties --cminDefaultMinimizerStrategy 0 --robustHesse 1 -n X4b_runII_WP60_3bins
+
 
 python MakePostfitFigures_X4b.py

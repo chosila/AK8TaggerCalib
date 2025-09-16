@@ -279,9 +279,6 @@ def main():
                             h_outs[sel][h_MC_name] = R.TH1D(h_MC_name, h_MC_name, nCuts+1, 0, nCuts+1)
                             h_outs[sel][h_MC_name].SetDirectory(0) ## Save locally
                         h_outs[sel][h_MC_name].Add(h_outs[sel][h_out_name])
-                        # print(f'{h_in_name=} : {h_in.Integral()}')
-                        # print(f'{h_out_name=} : {h_outs[sel][h_out_name].Integral()}')
-                        # print(f'{h_MC_name=} : {h_outs[sel][h_MC_name].Integral()}')
 
                         ## Perform systematic variations
                         for h_syst in make_syst_hists(h_outs[sel][h_out_name], syst):

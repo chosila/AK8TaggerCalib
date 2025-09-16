@@ -20,20 +20,18 @@ def add_uncertainty(hist, ax, ratio=False):
         ax.fill_between(x=hist.axes[0].edges(), y1=np.r_[down, down[-1]], y2=np.r_[up, up[-1]], **opts)
 
 
-
-
-
 def make_plots(dc_sr):
     h = dc_sr['data']
     processes = ['Sum0b', 'Sum1B', 'Sum2B']
-    # processes = ['Sum01B', 'SumBB', 'SumBQQ', 'Sum2B2Q']
-    #processes = ['Sum4B', 'Sum3B', 'Sum012B', 'SumTWZ']
 
     fig, ax = plt.subplots(figsize=(9,6))
     hep.cms.label(
         "Preliminary",
         data=True,
-        lumi=59.83,
+        # lumi=59.83, #2018
+        # lumi = 41.48, #2017
+        # lumi = 16.8,  # 2016 post vfp
+        # lumi = 19.5  #2016 pre vfp
         loc=0,
         ax=ax,
     )
@@ -64,16 +62,22 @@ def make_plots(dc_sr):
 
     ax.set_xticks(range(0,5)) # used for to avoid this error: UserWarning: FixedFormatter should only be used together with FixedLocator
 
-    ax.set_xlabel('Xbb', loc='right')
-
-    ax.set_xticklabels([0.0, 0.1, 0.5, 0.75, 1.0]) ## v1 Xbb axis label and tick label
-    #ax.set_xlabel('ParticleNet Xbb vs. QCD')
 
     return fig,ax
 
 
 fns = {
-    'fitDiagnosticsXbb_TTbar_sf.root' : ['Mu_zerob_bdtHi', 'Mu_zerob_bdtMed', 'Mu_zerob_bdtLo', 'Mu_zerob_bdtVeto', 'Mu_oneb','EG_zerob_bdtHi', 'EG_zerob_bdtMed', 'EG_zerob_bdtLo', 'EG_zerob_bdtVeto', 'EG_oneb'],
+    #'fitDiagnosticsXbb_2016preVFP.root' : ['Mu_zerob_bdtHi', 'Mu_zerob_bdtMed', 'Mu_zerob_bdtLo', 'Mu_zerob_bdtVeto', 'Mu_oneb','EG_zerob_bdtHi', 'EG_zerob_bdtMed', 'EG_zerob_bdtLo', 'EG_zerob_bdtVeto', 'EG_oneb'],
+
+    #'fitDiagnosticsXbb_2016postVFP.root' : ['Mu_zerob_bdtHi', 'Mu_zerob_bdtMed', 'Mu_zerob_bdtLo', 'Mu_zerob_bdtVeto', 'Mu_oneb','EG_zerob_bdtHi', 'EG_zerob_bdtMed', 'EG_zerob_bdtLo', 'EG_zerob_bdtVeto', 'EG_oneb'],
+
+    #'fitDiagnosticsXbb_2017.root' : ['Mu_zerob_bdtHi', 'Mu_zerob_bdtMed', 'Mu_zerob_bdtLo', 'Mu_zerob_bdtVeto', 'Mu_oneb','EG_zerob_bdtHi', 'EG_zerob_bdtMed', 'EG_zerob_bdtLo', 'EG_zerob_bdtVeto', 'EG_oneb'],
+
+    'fitDiagnosticsXbb_2018.root' : ['Mu_zerob_bdtHi', 'Mu_zerob_bdtMed', 'Mu_zerob_bdtLo', 'Mu_zerob_bdtVeto', 'Mu_oneb','EG_zerob_bdtHi', 'EG_zerob_bdtMed', 'EG_zerob_bdtLo', 'EG_zerob_bdtVeto', 'EG_oneb'],
+
+
+    ## the dictionary is in the form of
+    # '<path to fitDiagnostics output.root' : ['combine channel1', 'channel 2', 'channel 3'...]
 }
 
 for fn in fns:
@@ -81,23 +85,23 @@ for fn in fns:
 
         fitDiagnostics = uproot.open(fn)
 
-
         dc_sr = fitDiagnostics[f'shapes_prefit/{branch}']
         fig, ax = make_plots(dc_sr)
         pltname = f"{fn.removesuffix('.root').removeprefix('fitDiagnostics')}_{branch}"
+        ax.set_xticklabels([0.0, 0.1,0.5,0.75, 1.0]) # Xbb WP40
+        ax.set_xlabel('Xbb score', loc='right')
         ax.set_title(pltname, y=1.1)
-        # fig.savefig(f'plots/v2/pre_post_Fits/prefit_{pltname}.png', bbox_inches='tight')
-        #fig.savefig(f'plots/v2/combinedbkg_test/prefit_{pltname}.png', bbox_inches='tight')
         fig.savefig(f'tmp/prefit_{pltname}.png', bbox_inches='tight')
 
 
         dc_sr = fitDiagnostics[f'shapes_fit_s/{branch}']
         fig, ax = make_plots(dc_sr)
         pltname = f"{fn.removesuffix('.root').removeprefix('fitDiagnostics')}_{branch}"
+        ax.set_xticklabels([0.0, 0.1,0.5,0.75, 1.0]) # Xbb WP60
+        ax.set_xlabel('Xbb score', loc='right')
         ax.set_title(pltname, y=1.1)
-        # fig.savefig(f'plots/v2/pre_post_Fits/postfit_{pltname}.png', bbox_inches='tight')
-        # fig.savefig(f'plots/v2/combinedbkg_test/postfit_{pltname}.png', bbox_inches='tight')
         fig.savefig(f'tmp/postfit_{pltname}.png', bbox_inches='tight')
+        print('saved', pltname)
 
 
 

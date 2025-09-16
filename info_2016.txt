@@ -29,12 +29,19 @@ combine -M FitDiagnostics  cards/v2_scalefactor/2016/bbqq_vs_01b/pre+post_vfp/mu
 combine -M FitDiagnostics  cards/v2_scalefactor/2016/bbqq_vs_01b/pre+post_vfp/mu+eg_0b+1b_WP60_preVFP.txt --setParameterRanges s2B2Q_4bin=-1.5,1.5 --setParameters s2B2Q_4bin=0  --redefineSignalPOIs s2B2Q_4bin --preFitValue 0   --robustFit 1 --stepSize 0.01 --setRobustFitTolerance 0.02 --profilingMode all --saveShapes --saveWithUncertainties --cminDefaultMinimizerStrategy 0 -n bbqq_vs_01b_2016_WP60_preVFP
 
 
+source runimpact.sh cards/v2_scalefactor/2016/bbqq_vs_01b/pre+post_vfp/mu+eg_0b+1b_WP60_preVFP.txt bbqq_vs_01b_2016_WP60_preVFP
+source runimpact.sh cards/v2_scalefactor/2016/bbqq_vs_01b/pre+post_vfp/mu+eg_0b+1b_WP40_preVFP.txt bbqq_vs_01b_2016_WP40_preVFP
+
+
 # 2016
 combine -M MultiDimFit cards/v2_scalefactor/2016/bbqq_vs_01b/pre+post_vfp/mu+eg_0b+1b_WP40_postVFP.txt --setParameterRanges s2B2Q_4bin=-1,1.1 --setParameters s2B2Q_4bin=0  --algo grid --parameters s2B2Q_4bin  --points 500 --floatOtherPOIs yes --redefineSignalPOIs s2B2Q_4bin --preFitValue 0 -n bbqq_vs_01b_2016_WP40_postVFP
 combine -M MultiDimFit cards/v2_scalefactor/2016/bbqq_vs_01b/pre+post_vfp/mu+eg_0b+1b_WP60_postVFP.txt --setParameterRanges s2B2Q_4bin=-1,1 --setParameters s2B2Q_4bin=0  --algo grid --parameters s2B2Q_4bin  --points 501 --floatOtherPOIs yes --redefineSignalPOIs s2B2Q_4bin --preFitValue 0 -n bbqq_vs_01b_2016_WP60_postVF ## this one plateaus
 
 combine -M FitDiagnostics  cards/v2_scalefactor/2016/bbqq_vs_01b/pre+post_vfp/mu+eg_0b+1b_WP40_postVFP.txt --setParameterRanges s2B2Q_4bin=-1,1.1 --setParameters s2B2Q_4bin=0  --redefineSignalPOIs s2B2Q_4bin --preFitValue 0   --robustFit 1 --stepSize 0.01 --setRobustFitTolerance 0.02 --profilingMode all --saveShapes --saveWithUncertainties --cminDefaultMinimizerStrategy 0 -n bbqq_vs_01b_2016_WP40_postVFP
 combine -M FitDiagnostics  cards/v2_scalefactor/2016/bbqq_vs_01b/pre+post_vfp/mu+eg_0b+1b_WP60_postVFP.txt --setParameterRanges s2B2Q_4bin=-1,1 --setParameters s2B2Q_4bin=0  --redefineSignalPOIs s2B2Q_4bin --preFitValue 0   --robustFit 1 --stepSize 0.01 --setRobustFitTolerance 0.02 --profilingMode all --saveShapes --saveWithUncertainties --cminDefaultMinimizerStrategy 0 -n bbqq_vs_01b_2016_WP60_postVFP
+
+source runimpact.sh cards/v2_scalefactor/2016/bbqq_vs_01b/pre+post_vfp/mu+eg_0b+1b_WP60_postVFP.txt bbqq_vs_01b_2016_WP60_postVFP
+source runimpact.sh cards/v2_scalefactor/2016/bbqq_vs_01b/pre+post_vfp/mu+eg_0b+1b_WP40_postVFP.txt bbqq_vs_01b_2016_WP40_postVFP
 
 
 # both combined
@@ -43,6 +50,9 @@ combine -M MultiDimFit cards/v2_scalefactor/2016/bbqq_vs_01b/pre+post_vfp/mu+eg_
 
 combine -M FitDiagnostics  cards/v2_scalefactor/2016/bbqq_vs_01b/pre+post_vfp/mu+eg_0b+1b_WP40.txt --setParameterRanges s2B2Q_4bin=-.2,.7 --setParameters s2B2Q_4bin=0  --redefineSignalPOIs s2B2Q_4bin --preFitValue 0   --robustFit 1 --stepSize 0.01 --setRobustFitTolerance 0.02 --profilingMode all --saveShapes --saveWithUncertainties --cminDefaultMinimizerStrategy 0 -n bbqq_vs_01b_2016_WP40
 combine -M FitDiagnostics  cards/v2_scalefactor/2016/bbqq_vs_01b/pre+post_vfp/mu+eg_0b+1b_WP60.txt --setParameterRanges s2B2Q_4bin=-1,1.1 --setParameters s2B2Q_4bin=0  --redefineSignalPOIs s2B2Q_4bin --preFitValue 0   --robustFit 1 --stepSize 0.01 --setRobustFitTolerance 0.02 --profilingMode all --saveShapes --saveWithUncertainties --cminDefaultMinimizerStrategy 0 -n bbqq_vs_01b_2016_WP60
+
+source runimpact.sh cards/v2_scalefactor/2016/bbqq_vs_01b/pre+post_vfp/mu+eg_0b+1b_WP40.txt bbqq_vs_01b_2016_WP40
+source runimpact.sh cards/v2_scalefactor/2016/bbqq_vs_01b/pre+post_vfp/mu+eg_0b+1b_WP60.txt bbqq_vs_01b_2016_WP60
 
 
 python plot_nll_bbqq_vs_01b.py higgsCombinebbqq_vs_01b_2016_WP40_preVFP.MultiDimFit.mH120.root bbqq_vs_01b_2016_WP40_preVFP
